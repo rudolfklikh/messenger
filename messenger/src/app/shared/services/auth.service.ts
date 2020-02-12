@@ -1,9 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from "../intefaces/user";
+import { User } from '../intefaces/user';
 import { auth } from 'firebase/app';
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class AuthService {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
-    })
+    });
   }
 
   // Sign in with email/password
@@ -41,8 +41,8 @@ export class AuthService {
         });
         this.SetUserData(result.user);
       }).catch((error) => {
-        window.alert(error.message)
-      })
+        window.alert(error.message);
+      });
   }
 
   // Sign up with email/password
@@ -54,8 +54,8 @@ export class AuthService {
         this.SendVerificationMail();
         this.SetUserData(result.user);
       }).catch((error) => {
-        window.alert(error.message)
-      })
+        window.alert(error.message);
+      });
   }
 
   // Send email verfificaiton when new user sign up
@@ -72,8 +72,8 @@ export class AuthService {
       .then(() => {
         window.alert('Password reset email sent, check your inbox.');
       }).catch((error) => {
-        window.alert(error)
-      })
+        window.alert(error);
+      });
   }
 
   // Returns true when user is looged in and email is verified
@@ -93,25 +93,23 @@ export class AuthService {
       .then((result) => {
         this.ngZone.run(() => {
           this.router.navigate(['dashboard']);
-        })
+        });
         this.SetUserData(result.user);
       }).catch((error) => {
-        window.alert(error)
-      })
+        window.alert(error);
+      });
   }
 
 
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-
-    console.log(userRef, 'REF');
     const userData: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
-    }
+    };
     return userRef.set(userData, {
       merge: true
     });
