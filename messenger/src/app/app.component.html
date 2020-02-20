@@ -1,4 +1,5 @@
 <app-header></app-header>
-<div>
-  <router-outlet></router-outlet>
+<div class="app__wrapper" [@routerAnimations]="getState(routerOutlet)">
+    <router-outlet #routerOutlet="outlet"></router-outlet>
 </div>
+

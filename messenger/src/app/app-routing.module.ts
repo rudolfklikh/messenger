@@ -10,10 +10,10 @@ import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: '/sign-in', pathMatch: 'full'},
-  {path: 'sign-in', component: SignInComponent , canActivate: [SecureInnerPagesGuard]},
-  {path: 'register-user', component: SignUpComponent, canActivate: [SecureInnerPagesGuard]},
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-  {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [SecureInnerPagesGuard]},
+  {path: 'sign-in', component: SignInComponent , data: {state: 'login'}, canActivate: [SecureInnerPagesGuard]},
+  {path: 'register-user', component: SignUpComponent, data: {state: 'registration'},  canActivate: [SecureInnerPagesGuard]},
+  {path: 'dashboard', component: DashboardComponent,  canActivate: [AuthGuard]},
+  {path: 'forgot-password', component: ForgotPasswordComponent, data: {state: 'reset'}, canActivate: [SecureInnerPagesGuard]},
   {path: 'verify-email-address', component: VerifyEmailComponent, canActivate: [SecureInnerPagesGuard]}
 ];
 

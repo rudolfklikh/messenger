@@ -1,41 +1,40 @@
-<div class="displayTable">
-  <div class="displayTableCell">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 sign-in__container">
+      <div class="sign-in__content-block">
+        <h3 class="sign-in__title">Sign In</h3>
+        <div class="sign-in__form-wrapper">
+          <mat-form-field class="sign-in__form-field">
+            <mat-label>Email</mat-label>
+            <input matInput class="sign-in__form-input">
+          </mat-form-field>
 
-    <div class="authBlock">
-      <h3>Sign In</h3>
-      <div class="formGroup">
-        <input type="text" class="formControl" placeholder="Username" #userName required>
-      </div>
-
-      <div class="formGroup">
-        <input type="password" class="formControl" placeholder="Password" #userPassword required>
-      </div>
-
-      <!-- Calling SignIn Api from AuthService -->
-      <div class="formGroup">
-        <input type="button" class="btn btnPrimary" value="Log in" (click)="authService.SignIn(userName.value, userPassword.value)">
-      </div>
-
-      <div class="formGroup">
-        <span class="or"><span class="orInner">Or</span></span>
-      </div>
-
-      <!-- Calling GoogleAuth Api from AuthService -->
-      <div class="formGroup">
-        <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-          <i class="fab fa-google-plus-g"></i>
-          Log in with Google
-        </button>
-      </div>
-
-      <div class="forgotPassword">
-        <span routerLink="/forgot-password">Forgot Password?</span>
+          <mat-form-field class="sign-in__form-field">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" class="sign-in__form-input">
+          </mat-form-field>
+        </div>
+        <!-- Calling SignIn Api from AuthService -->
+        <div class="sign-in__form-buttons-wrapper">
+          <div class="sign-in__buttons_parent">
+            <button type="button" class="btn btnPrimary sign-in__form-buttons">Log In</button>
+          </div>
+          <!-- Calling GoogleAuth Api from AuthService -->
+          <div class="sign-in__buttons_parent">
+            <button type="button" class="btn googleBtn sign-in__form-buttons" (click)="authService.GoogleAuth()">
+              <span>Log in with Google</span>
+              <mat-icon class="mat-icon-rtl-mirror sign-in__form-icon" svgIcon="google"></mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="sign-in__form__forgot-password">
+          <a routerLink="/forgot-password">Forgot Password?</a>
+        </div>
+        <div class="sign-in__form-redirect-to-login-wrapper">
+          <span class="sign-in__form-redirect-to-login-span">Don't have an account?</span>
+          <a  class="sign-in__form-redirect-to-login-href" [routerLink]="['/register-user']">Sign Up</a>
+        </div>
       </div>
     </div>
-
-    <div class="redirectToLogin">
-      <span>Don't have an account?<span class="redirect" routerLink="/register-user"> Sign Up</span></span>
-    </div>
-
   </div>
 </div>

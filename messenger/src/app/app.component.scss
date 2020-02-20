@@ -1,4 +1,10 @@
 :host {
   display: block;
-  height: 100vh;
+  height: 100vh !important;
+}
+.app__wrapper {
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

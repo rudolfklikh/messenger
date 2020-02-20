@@ -1,0 +1,36 @@
+.header {
+
+  &__wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.header__sidenav-content {
+  background-color: #F4D6A0;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  &-img {
+    height: 100px;
+    width: 100px;
+    transition: 0.4s all ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
+}
+
+
+
+@media screen and (min-device-width: 0px) and (max-device-width: 768px) {
+  .header__sidenav-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+  }
+}
