@@ -81,11 +81,48 @@
     color: $main-buttons-color;
   }
 }
+.sign__up-form-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sign__up-success-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 38px;
+  width: 38px;
+}
+.sign__up-fail-icon {
+  position: absolute;
+  right: -7px;
+  top: -3px;
+  height: 45px;
+  width: 45px;
+}
+.sign__up-errors-wrapper {
+  position: relative;
+  width: 50%;
+}
+.sign__up-errors {
+  position: absolute;
+  right: 0;
+  color: red;
+}
+.sign__up--margin {
+  margin-top: 20px;
+}
 @media screen and (min-device-width: 0px) and (max-device-width: 768px) {
   .sign__up-form-field {
     width: 90%;
   }
   .sign__up-form-buttons {
     width: 90%;
+  }
+  .sign__up-errors-wrapper {
+    width: 95%;
   }
 }

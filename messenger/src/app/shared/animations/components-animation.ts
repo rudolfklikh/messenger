@@ -30,4 +30,11 @@ export const routerAnimations = trigger('routerAnimations', [
       }
     })
   ]),
+  transition('verify <=> login', [
+    useAnimation(zoomIn, {
+      params: {
+        timing: 0.5
+      }
+    })
+  ]),
 ]);

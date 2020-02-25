@@ -11,6 +11,6 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
 
   getState(outlet: RouterOutlet) {
-    return outlet.activatedRouteData['state'];
+    return outlet.activatedRouteData.state;
   }
 }

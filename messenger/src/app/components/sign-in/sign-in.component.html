@@ -4,24 +4,39 @@
       <div class="sign-in__content-block">
         <h3 class="sign-in__title">Sign In</h3>
         <div class="sign-in__form-wrapper">
-          <mat-form-field class="sign-in__form-field">
-            <mat-label>Email</mat-label>
-            <input matInput class="sign-in__form-input">
-          </mat-form-field>
+          <form [formGroup]="loginForm" class="sign-in__form">
+            <mat-form-field class="sign-in__form-field">
+              <mat-label>Email</mat-label>
+              <input formControlName="email" matInput class="sign-in__form-input">
+              <mat-icon [@bird] *ngIf="email.dirty && email.valid" class="mat-icon-rtl-mirror sign-in__success-icon" svgIcon="success"></mat-icon>
+              <mat-icon [@cancel] *ngIf="email.dirty && email.invalid || email.touched && email.invalid" class="mat-icon-rtl-mirror sign-in__fail-icon" svgIcon="fail"></mat-icon>
+            </mat-form-field>
+            <div class="sign-in__errors-wrapper" [@errors_wrapper] *ngIf="email.dirty && email.invalid || email.touched && email.invalid">
+              <p class="sign-in__errors" [@errors] *ngIf="email.errors.required">Required field</p>
+              <p class="sign-in__errors" [@errors] *ngIf="email.errors.pattern">Incorrect input</p>
+            </div>
 
-          <mat-form-field class="sign-in__form-field">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" class="sign-in__form-input">
-          </mat-form-field>
+            <mat-form-field class="sign-in__form-field">
+              <mat-label>Password</mat-label>
+              <input formControlName="password" matInput type="password" class="sign-in__form-input">
+              <mat-icon [@bird] *ngIf="password.dirty && password.valid" class="mat-icon-rtl-mirror sign-in__success-icon" svgIcon="success"></mat-icon>
+              <mat-icon [@cancel] *ngIf="password.dirty && password.invalid || password.touched && password.invalid" class="mat-icon-rtl-mirror sign-in__fail-icon" svgIcon="fail"></mat-icon>
+            </mat-form-field>
+
+            <div class="sign-in__errors-wrapper" [@errors_wrapper] *ngIf="password.dirty && password.invalid || password.touched && password.invalid">
+              <p class="sign-in__errors" [@errors] *ngIf="password.errors.required">Required field</p>
+              <p class="sign-in__errors" [@errors] *ngIf="password.errors.minlength">Password must be at least 8 characters long</p>
+            </div>
+          </form>
         </div>
         <!-- Calling SignIn Api from AuthService -->
         <div class="sign-in__form-buttons-wrapper">
           <div class="sign-in__buttons_parent">
-            <button type="button" class="btn btnPrimary sign-in__form-buttons">Log In</button>
+            <button type="button" (click)="SignIn()" class="btn btnPrimary sign-in__form-buttons" [disabled]="loginForm.invalid">Log In</button>
           </div>
           <!-- Calling GoogleAuth Api from AuthService -->
           <div class="sign-in__buttons_parent">
-            <button type="button" class="btn googleBtn sign-in__form-buttons" (click)="authService.GoogleAuth()">
+            <button (click)="SignInWithGoogle()" type="button" class="btn googleBtn sign-in__form-buttons">
               <span>Log in with Google</span>
               <mat-icon class="mat-icon-rtl-mirror sign-in__form-icon" svgIcon="google"></mat-icon>
             </button>

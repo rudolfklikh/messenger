@@ -20,12 +20,16 @@
 .sign-in__form-input {
   color: $main-font-color;
 }
+.sign-in__form {
+  width: 100%;
+}
 
 .sign-in__form-buttons-wrapper {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
+  margin-top: 15px;
 }
 .sign-in__buttons_parent {
   width: 100%;
@@ -125,6 +129,28 @@
   }
 }
 
+.sign-in__success-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 38px;
+  width: 38px;
+}
+.sign-in__fail-icon {
+  position: absolute;
+  right: -7px;
+  top: -3px;
+  height: 45px;
+  width: 45px;
+}
+.sign-in__errors-wrapper {
+  position: relative;
+}
+.sign-in__errors {
+  position: absolute;
+  right: 0;
+  color: red;
+}
 
 // MEDIA
 @media screen and (min-device-width: 0px) and (max-device-width: 768px) {

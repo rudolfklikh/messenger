@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthFacadeService } from 'src/app/shared/services/authorization/auth-facade.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -8,9 +8,14 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 })
 export class VerifyEmailComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
-
+  constructor(public authFacade: AuthFacadeService) { }
+  userEmail: string;
   ngOnInit() {
+    this.userEmail = JSON.parse(localStorage.getItem('user')).email;
+  }
+
+  resendVerificationLink() {
+    this.authFacade.ResendVerificationLink();
   }
 
 }

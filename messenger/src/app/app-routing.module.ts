@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'register-user', component: SignUpComponent, data: {state: 'registration'},  canActivate: [SecureInnerPagesGuard]},
   {path: 'dashboard', component: DashboardComponent,  canActivate: [AuthGuard]},
   {path: 'forgot-password', component: ForgotPasswordComponent, data: {state: 'reset'}, canActivate: [SecureInnerPagesGuard]},
-  {path: 'verify-email-address', component: VerifyEmailComponent, canActivate: [SecureInnerPagesGuard]}
+  {path: 'verify-email-address', component: VerifyEmailComponent, data: {state: 'verify'}, canActivate: [SecureInnerPagesGuard]}
 ];
 
 @NgModule({

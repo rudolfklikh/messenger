@@ -4,23 +4,38 @@
       <h3 class="sign__up-title">Sign Up</h3>
 
       <div class="formGroup sign__up-form-wrapper">
-        <mat-form-field class="sign__up-form-field">
-          <mat-label>Email</mat-label>
-          <input matInput type="email">
-        </mat-form-field>
+        <form [formGroup]="registrationForm" class="sign__up-form-wrapper">
+          <mat-form-field class="sign__up-form-field">
+            <mat-label>Email</mat-label>
+            <input formControlName='email' matInput type="email">
+            <mat-icon [@bird] *ngIf="email.dirty && email.valid" class="mat-icon-rtl-mirror sign__up-success-icon" svgIcon="success"></mat-icon>
+            <mat-icon [@cancel] *ngIf="email.dirty && email.invalid || email.touched && email.invalid" class="mat-icon-rtl-mirror sign__up-fail-icon" svgIcon="fail"></mat-icon>
+          </mat-form-field>
+          <div class="sign__up-errors-wrapper" [@errors_wrapper] *ngIf="email.dirty && email.invalid || email.touched && email.invalid">
+            <p class="sign__up-errors" [@errors] *ngIf="email.errors.required">Required field</p>
+            <p class="sign__up-errors" [@errors] *ngIf="email.errors.pattern">Incorrect input</p>
+          </div>
 
-        <mat-form-field class="sign__up-form-field">
-          <mat-label>Password</mat-label>
-          <input matInput type="password">
-        </mat-form-field>
+          <mat-form-field class="sign__up-form-field">
+            <mat-label>Password</mat-label>
+            <input formControlName='password' matInput type="password">
+            <mat-icon [@bird] *ngIf="password.dirty && password.valid" class="mat-icon-rtl-mirror sign__up-success-icon" svgIcon="success"></mat-icon>
+            <mat-icon [@cancel] *ngIf="password.dirty && password.invalid || password.touched && password.invalid" class="mat-icon-rtl-mirror sign__up-fail-icon" svgIcon="fail"></mat-icon>
+          </mat-form-field>
+
+          <div class="sign__up-errors-wrapper" [@errors_wrapper] *ngIf="password.dirty && password.invalid || password.touched && password.invalid">
+            <p class="sign__up-errors" [@errors] *ngIf="password.errors.required">Required field</p>
+            <p class="sign__up-errors" [@errors] *ngIf="password.errors.minlength">Password must be at least 8 characters long</p>
+          </div>
+        </form>
       </div>
       <div>
-        <div class="formGroup sign__up-form-wrapper">
-          <button type="button" class="btn sign__up-form-buttons">Sign Up</button>
+        <div class="formGroup sign__up-form-wrapper sign__up--margin">
+          <button (click)="SignUp()" [disabled]="registrationForm.invalid" type="button" class="btn sign__up-form-buttons">Sign Up</button>
         </div>
         <!-- Continue with Google -->
         <div class="formGroup sign__up-form-wrapper">
-          <button type="button" class="btn sign__up-form-buttons" (click)="authService.GoogleAuth()">
+          <button (click)="SignUpWithGoogle()" type="button" class="btn sign__up-form-buttons">
             Continue with Google
             <mat-icon class="mat-icon-rtl-mirror sign-in__form-icon" svgIcon="google"></mat-icon>
           </button>
