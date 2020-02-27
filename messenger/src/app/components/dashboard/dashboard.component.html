@@ -1,57 +1,73 @@
-<!-- Top navigation -->
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/register-student">
-    <img class="brand-logo" src="assets/logo-positronx-white.svg" alt="positronX.io Logo">
-    <span class="dasboard-text">Dashboard</span>
-  </a>
-</nav>
-
 <!-- Sidebar navigation -->
-<div class="container-fluid">
-  <div class="row">
-
-    <nav class="col-md-2 d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active">
-              <i class="fas fa-user"></i>User Profile
-            </a>
+<div class="container dashboard__container">
+  <div class="row dashboard__row">
+    <nav class="col-lg-4 sidebar dashboard__menu-wrapper">
+      <a (click)="toggleHamburger()" class="dashboard__menu-burger">
+        <div class="dashboard__inside__burger">
+          <div class="menu-wrapper">
+            <div [ngClass]="{'animate': toggleBool === true}" class="hamburger-menu"></div>
+          </div>
+          <span class="dashboard__burger-span">onLine</span>
+        </div>
+      </a>
+      <nav [@showMenu] *ngIf="toggleBool" class="dashboard__toggle-menu">
+        <ul class="dashboard__toggle-ul">
+          <li class="dashboard__toggle-li">
+            <mat-icon class="dashboard__icons" svgIcon="portfolio"></mat-icon>
+            <a class="dashboard__toggle-link">Profile</a>
           </li>
-          <!-- Calling SignOut() Api from AuthService -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>Log out
-            </a>
+          <li class="dashboard__toggle-li">
+            <mat-icon class="dashboard__icons" svgIcon="info"></mat-icon>
+            <a class="dashboard__toggle-link">Information about Owner</a>
+          </li>
+          <li class="dashboard__toggle-li">
+            <mat-icon class="dashboard__icons" svgIcon="settings"></mat-icon>
+            <a class="dashboard__toggle-link">Settings</a>
+          </li>
+          <li class="dashboard__toggle-li" (click)="SignOut()">
+            <mat-icon class="dashboard__icons" svgIcon="exit"></mat-icon>
+            <a class="dashboard__toggle-link">Sign Out</a>
           </li>
         </ul>
-      </div>
-    </nav>
+      </nav>
+      <div *ngIf="usersList" class="dashboard__user-list">
+        <div *ngFor="let user of usersList" class="dashboard__user-info">
+          <div *ngIf="user.photoURL !== null; else dummyIcon" class="dashboard__user-img-wrapper">
+            <img class="dashboard__user-list-img" [src]="user.photoURL">
+            <div class="dashboard__user-status">
 
-    <!-- Main content -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div class="inner-adjust">
-
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">User Profile</h1>
-        </div>
-        <!-- Show user data when logged in -->
-        <div class="row" *ngIf="authService.user$ as user">
-          <div class="col-md-12">
-            <div class="media">
-              <img class="align-self-start mr-5 img-thumbnail rounded-circle"
-                src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">
-              <div class="media-body">
-                <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
-                <p>User ID: <strong>{{user.uid}}</strong></p>
-                <p>Email: <strong>{{user.email}}</strong></p>
-                <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
-              </div>
             </div>
           </div>
-        </div>
+          <ng-template #dummyIcon>
+            <div class="dashboard__user-img-wrapper">
+              <mat-icon class="dashboard__user-list-icons" svgIcon="dummyprofile"></mat-icon>
+              <div class="dashboard__user-status">
 
+              </div>
+            </div>
+          </ng-template>
+
+          <div class="dashboard__user-info-text">
+            <span class="dashboard__user-info-span">{{ user.email }}</span>
+          </div>
+        </div>
       </div>
+    </nav>
+    <!-- Main content -->
+    <main role="main" class="col-lg-8 dashboard__messages-main">
+      <div class="dashboard__messages">
+        <div *ngFor="let message of messages" class="dashboard__messages-body"
+          [ngClass]="{'message__from-user': message.from == 'rudolfklih@gmail.com'}">
+          <span class="dashboard__messages-data">{{ message.data }}</span>
+          <span class="dashboard__messages-email">{{ message.from }}</span>
+          <span class="dashboard__messages-time">{{ message.time }}</span>
+        </div>
+      </div>
+      <footer class="dashboard__messages-footer">
+        <mat-form-field class="dashboard__messages-field">
+          <input formControlName="password" placeholder="Write a message..." matInput type="text" class="dashboard__messages-input">
+        </mat-form-field>
+      </footer>
     </main>
 
   </div>

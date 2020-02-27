@@ -5,7 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap, first } from 'rxjs/operators';
+import { switchMap, first, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +54,13 @@ export class AuthService {
   //     })));
   // }
 
+  GetAllUsers(): Observable<any> {
+      return this.afs.collection('users').snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as User;
+        return { ...data };
+      })));
+  }
 
   async SignUp(email, password) { // Sign up with email/password
     try {
@@ -64,10 +71,12 @@ export class AuthService {
       window.alert(error.message);
     }
   }
+
   async SendVerificationMail() {   // Send email verfificaiton when new user sign up
     await this.afAuth.auth.currentUser.sendEmailVerification();
     this.router.navigate(['verify-email-address']);
   }
+
   async ForgotPassword(passwordResetEmail) {   // Reset Forggot password
     try {
       await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
@@ -76,10 +85,12 @@ export class AuthService {
       window.alert(error);
     }
   }
+
   get isLoggedIn(): boolean {   // Returns true when user is looged in and email is verified
     const user = JSON.parse(localStorage.getItem('user'));
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
+
   async AuthLogin(provider) {   // Auth logic to run auth providers
     try {
       const result = await this.afAuth.auth.signInWithPopup(provider);
@@ -89,7 +100,6 @@ export class AuthService {
       window.alert(error);
     }
   }
-
 
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
@@ -104,6 +114,7 @@ export class AuthService {
       merge: true
     });
   }
+
   async SignOut() {   // Sign out
     await this.afAuth.auth.signOut();
     localStorage.removeItem('user');

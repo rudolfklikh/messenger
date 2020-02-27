@@ -27,4 +27,12 @@ export class AuthFacadeService {
     this.authService.ForgotPassword(email);
   }
 
+  SignOut() {
+    this.authService.SignOut();
+  }
+
+  GetAllUsers() {
+    return this.authService.GetAllUsers();
+  }
+
 }
