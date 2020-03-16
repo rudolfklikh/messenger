@@ -34,9 +34,7 @@
         <div *ngFor="let user of usersList" class="dashboard__user-info">
           <div *ngIf="user.photoURL !== null; else dummyIcon" class="dashboard__user-img-wrapper">
             <img class="dashboard__user-list-img" [src]="user.photoURL">
-            <div class="dashboard__user-status">
-
-            </div>
+            <div class="dashboard__user-status"></div>
           </div>
           <ng-template #dummyIcon>
             <div class="dashboard__user-img-wrapper">
@@ -65,7 +63,7 @@
       </div>
       <footer class="dashboard__messages-footer">
         <mat-form-field class="dashboard__messages-field">
-          <input formControlName="password" placeholder="Write a message..." matInput type="text" class="dashboard__messages-input">
+          <input placeholder="Write a message..." matInput type="text" class="dashboard__messages-input">
         </mat-form-field>
       </footer>
     </main>

@@ -5,7 +5,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap, first, map } from 'rxjs/operators';
+import { switchMap, first, map, filter, flatMap } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class AuthService {
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone,
+    private cookieService: CookieService
   ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -46,20 +48,18 @@ export class AuthService {
       window.alert(error.message);
     }
   }
-  // checkUserEmail(email): Observable<any> {
-  //   return this.afs.collection('users').snapshotChanges().pipe(
-  //     map(actions => actions.map(a => {
-  //       const data = a.payload.doc.data() as User;
-  //       return { ...data };
-  //     })));
-  // }
+  checkUserEmail(email) {
+    return this.afs.collection('users').snapshotChanges().pipe(
+      map(actions => actions.map(a => a.payload.doc.data() as User)),
+      map(actions => actions.filter(user => user.email === email)[0]),
+    );
+  }
 
   GetAllUsers(): Observable<any> {
-      return this.afs.collection('users').snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as User;
-        return { ...data };
-      })));
+    return this.afs.collection('users').snapshotChanges()
+      .pipe(
+        map(actions => actions.map(a => a.payload.doc.data() as User))
+      );
   }
 
   async SignUp(email, password) { // Sign up with email/password

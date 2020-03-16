@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { trigger, transition, useAnimation } from '@angular/animations';
-import { wobble, rubberBand, shake, zoomOutRight } from 'ng-animate';
+import { wobble, rubberBand, shake, zoomOutRight, fadeInLeft, fadeOutLeft, fadeOut, bounceOut, bounceOutLeft } from 'ng-animate';
 import { AuthFacadeService } from 'src/app/shared/services/authorization/auth-facade.service';
+import { SignUpValidators } from 'src/app/shared/validators/sign-up/sign-up-validators';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { UtilsService } from 'src/app/shared/services/utils/utils.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -22,15 +26,32 @@ import { AuthFacadeService } from 'src/app/shared/services/authorization/auth-fa
     ]),
     trigger('errors_wrapper', [
       transition('* => void', useAnimation(zoomOutRight))
+    ]),
+    trigger('difficulty', [
+      transition('void => *', useAnimation(fadeInLeft, {
+        params: {
+          timing: 0.7
+        }
+      })),
+      transition('* => void', useAnimation(bounceOutLeft, {
+        params: {
+          timing: 0.7
+        }
+      })),
     ])
   ]
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnChanges {
 
   public registrationForm: FormGroup;
+  public color: ThemePalette = 'accent';
+  public mode: ProgressSpinnerMode = 'indeterminate';
+  public value = 20;
+  public difficulty = '';
 
   constructor(
     private authFacadeService: AuthFacadeService,
+    private utils: UtilsService,
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer,
     public fb: FormBuilder) {
@@ -41,7 +62,8 @@ export class SignUpComponent implements OnInit {
     this.registrationForm = this.fb.group({
       email: [
         null,
-        [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]
+        [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+        SignUpValidators.uniqEmail(this.authFacadeService)
       ],
       password: [
         null,
@@ -60,6 +82,15 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ngOnChanges();
+  }
+
+  ngOnChanges(): void {
+    this.registrationForm.get('password').valueChanges.subscribe((val) => {
+      this.utils.getPasswordDifficulty(val).subscribe(difficulty => {
+        this.difficulty = difficulty;
+      });
+    });
   }
   get email() {
     return this.registrationForm.get('email');

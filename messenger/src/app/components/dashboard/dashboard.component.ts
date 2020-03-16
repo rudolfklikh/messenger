@@ -4,6 +4,7 @@ import { trigger, transition, useAnimation } from '@angular/animations';
 import { lightSpeedOut, lightSpeedIn } from 'ng-animate';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,8 +38,11 @@ export class DashboardComponent implements OnInit {
     {data: 'RLY GUYS STOP DO THIS SHIT', time: '23:03', from: 'rudolfklih@gmail.com'},
     {data: 'RLY GUYS STOP DO THIS SHIT', time: '23:03', from: 'rudolfklih@gmail.com'},
   ];
-  constructor(public authFacadeService: AuthFacadeService, public iconRegistry: MatIconRegistry,
-              public sanitizer: DomSanitizer ) {
+  constructor(
+    public authFacadeService: AuthFacadeService,
+    public iconRegistry: MatIconRegistry,
+    public sanitizer: DomSanitizer
+    ) {
     iconRegistry.addSvgIcon('portfolio', sanitizer.bypassSecurityTrustResourceUrl('assets/portfolio.svg'));
     iconRegistry.addSvgIcon('info', sanitizer.bypassSecurityTrustResourceUrl('assets/info.svg'));
     iconRegistry.addSvgIcon('settings', sanitizer.bypassSecurityTrustResourceUrl('assets/worker.svg'));
@@ -48,7 +52,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.authFacadeService.GetAllUsers().subscribe(users => {
-      console.log(users);
       this.usersList = users;
     });
   }

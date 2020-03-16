@@ -8,30 +8,53 @@
           <mat-form-field class="sign__up-form-field">
             <mat-label>Email</mat-label>
             <input formControlName='email' matInput type="email">
-            <mat-icon [@bird] *ngIf="email.dirty && email.valid" class="mat-icon-rtl-mirror sign__up-success-icon" svgIcon="success"></mat-icon>
-            <mat-icon [@cancel] *ngIf="email.dirty && email.invalid || email.touched && email.invalid" class="mat-icon-rtl-mirror sign__up-fail-icon" svgIcon="fail"></mat-icon>
+            <mat-icon [@bird] *ngIf="email.dirty && email.valid" class="mat-icon-rtl-mirror sign__up-success-icon"
+              svgIcon="success"></mat-icon>
+            <mat-icon [@cancel] *ngIf="email.dirty && email.invalid || email.touched && email.invalid"
+              class="mat-icon-rtl-mirror sign__up-fail-icon" svgIcon="fail"></mat-icon>
+            <mat-progress-spinner *ngIf="email.pending" class="sign__up-spinner" [diameter]='25' [color]="color"
+              [mode]="mode" [value]="value"></mat-progress-spinner>
           </mat-form-field>
-          <div class="sign__up-errors-wrapper" [@errors_wrapper] *ngIf="email.dirty && email.invalid || email.touched && email.invalid">
+          <div class="sign__up-errors-wrapper" [@errors_wrapper]
+            *ngIf="email.dirty && email.invalid || email.touched && email.invalid">
             <p class="sign__up-errors" [@errors] *ngIf="email.errors.required">Required field</p>
             <p class="sign__up-errors" [@errors] *ngIf="email.errors.pattern">Incorrect input</p>
+            <p class="sign__up-errors" [@errors] *ngIf="email.errors.uniqEmail">Email exist
+            </p>
           </div>
 
           <mat-form-field class="sign__up-form-field">
             <mat-label>Password</mat-label>
             <input formControlName='password' matInput type="password">
-            <mat-icon [@bird] *ngIf="password.dirty && password.valid" class="mat-icon-rtl-mirror sign__up-success-icon" svgIcon="success"></mat-icon>
-            <mat-icon [@cancel] *ngIf="password.dirty && password.invalid || password.touched && password.invalid" class="mat-icon-rtl-mirror sign__up-fail-icon" svgIcon="fail"></mat-icon>
+            <mat-icon [@bird] *ngIf="password.dirty && password.valid" class="mat-icon-rtl-mirror sign__up-success-icon"
+              svgIcon="success"></mat-icon>
+            <mat-icon [@cancel] *ngIf="password.dirty && password.invalid || password.touched && password.invalid"
+              class="mat-icon-rtl-mirror sign__up-fail-icon" svgIcon="fail"></mat-icon>
           </mat-form-field>
 
-          <div class="sign__up-errors-wrapper" [@errors_wrapper] *ngIf="password.dirty && password.invalid || password.touched && password.invalid">
+          <div class="sign__up-errors-wrapper" [@errors_wrapper]
+            *ngIf="password.dirty && password.invalid || password.touched && password.invalid">
             <p class="sign__up-errors" [@errors] *ngIf="password.errors.required">Required field</p>
-            <p class="sign__up-errors" [@errors] *ngIf="password.errors.minlength">Password must be at least 8 characters long</p>
+            <p class="sign__up-errors" [@errors] *ngIf="password.errors.minlength">Password must be at least 8
+              characters long</p>
+          </div>
+          <div [@difficulty] *ngIf="password.valid && password.dirty" class="sign__up-errors-wrapper login__password-protection">
+            <div class="password__difficulty">
+              <div *ngIf="difficulty === 'weak'" style="width: 30%; background-color: #f44336; height: 100%;">
+              </div>
+              <div *ngIf="difficulty === 'common'" style="width: 50%; background-color: #ffc107; height: 100%;"></div>
+              <div *ngIf="difficulty === 'well'" style="width: 80%; background-color: #80ba29; height: 100%;">
+              </div>
+              <div *ngIf="difficulty === 'super'" style="width: 100%; background-color: #00c851; height: 100%;"></div>
+            </div>
+            <span>Password protection level</span>
           </div>
         </form>
       </div>
       <div>
         <div class="formGroup sign__up-form-wrapper sign__up--margin">
-          <button (click)="SignUp()" [disabled]="registrationForm.invalid" type="button" class="btn sign__up-form-buttons">Sign Up</button>
+          <button (click)="SignUp()" [disabled]="registrationForm.invalid || registrationForm.pending" type="button"
+            class="btn sign__up-form-buttons">Sign Up</button>
         </div>
         <!-- Continue with Google -->
         <div class="formGroup sign__up-form-wrapper">

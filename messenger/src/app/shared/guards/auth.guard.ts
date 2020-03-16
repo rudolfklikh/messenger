@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { AuthService } from '../../shared/services/authorization/auth.service';
 import { Observable } from 'rxjs';
 import { take, map, tap } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     public authService: AuthService,
-    public router: Router
+    public router: Router,
+    private cookieService: CookieService
   ) { }
 
   canActivate(
@@ -22,10 +24,11 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(user => {
         if (user === null || user.emailVerified === false) {
-          console.log('gg wp');
           return false;
+        } else {
+          this.cookieService.set('uniqEmail', user.email);
+          return true;
         }
-        return true;
       })
     );
   }

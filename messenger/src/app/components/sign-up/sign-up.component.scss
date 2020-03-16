@@ -115,6 +115,26 @@
 .sign__up--margin {
   margin-top: 20px;
 }
+.sign__up-spinner {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.login__password-protection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.3rem;
+}
+.password__difficulty {
+  background-color: gainsboro;
+  width: 60%;
+  height: 10px;
+}
+span {
+  font-size: .7rem;
+  color: #00c851;
+}
 @media screen and (min-device-width: 0px) and (max-device-width: 768px) {
   .sign__up-form-field {
     width: 90%;
@@ -124,5 +144,8 @@
   }
   .sign__up-errors-wrapper {
     width: 95%;
+  }
+  .password__difficulty {
+    width: 50%;
   }
 }

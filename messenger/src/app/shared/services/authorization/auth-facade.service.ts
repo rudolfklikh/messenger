@@ -35,4 +35,7 @@ export class AuthFacadeService {
     return this.authService.GetAllUsers();
   }
 
+  CheckUserEmail(email: string) {
+    return this.authService.checkUserEmail(email);
+  }
 }
