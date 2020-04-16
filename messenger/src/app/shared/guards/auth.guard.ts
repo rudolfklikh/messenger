@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
         if (user === null || user.emailVerified === false) {
           return false;
         } else {
-          this.cookieService.set('uniqEmail', user.email);
+          this.cookieService.set('uniqUid', user.uid);
           return true;
         }
       })

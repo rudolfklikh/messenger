@@ -21,9 +21,18 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatInputModule} from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CookieService } from 'ngx-cookie-service';
+import { ChatComponent } from './components/chat/chat.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+
+
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +41,8 @@ import { CookieService } from 'ngx-cookie-service';
     SignUpComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    HeaderComponent
+    HeaderComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +50,7 @@ import { CookieService } from 'ngx-cookie-service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireDatabaseModule,
     BrowserAnimationsModule,
     MatSliderModule,
     MatSidenavModule,
@@ -48,7 +59,9 @@ import { CookieService } from 'ngx-cookie-service';
     MatIconModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SocketIoModule.forRoot(config),
+    FormsModule,
   ],
   providers: [ AuthService, CookieService ],
   bootstrap: [AppComponent]

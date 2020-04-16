@@ -31,15 +31,23 @@
         </ul>
       </nav>
       <div *ngIf="usersList" class="dashboard__user-list">
-        <div *ngFor="let user of usersList" class="dashboard__user-info">
+        <div *ngFor="let user of usersList" class="dashboard__user-info" (click)="showChat(user)">
           <div *ngIf="user.photoURL !== null; else dummyIcon" class="dashboard__user-img-wrapper">
             <img class="dashboard__user-list-img" [src]="user.photoURL">
-            <div class="dashboard__user-status"></div>
+            <div class="dashboard__user-status" [ngClass]="{
+              'is-success':  user.status  === 'online',
+              'is-warning': user.status  === 'away',
+              'is-danger':  user.status  === 'offline'
+          }"></div>
           </div>
           <ng-template #dummyIcon>
             <div class="dashboard__user-img-wrapper">
               <mat-icon class="dashboard__user-list-icons" svgIcon="dummyprofile"></mat-icon>
-              <div class="dashboard__user-status">
+              <div class="dashboard__user-status" [ngClass]="{
+                'is-success':  user.status  === 'online',
+                'is-warning': user.status  === 'away',
+                'is-danger':  user.status  === 'offline'
+            }">
 
               </div>
             </div>
@@ -52,21 +60,8 @@
       </div>
     </nav>
     <!-- Main content -->
-    <main role="main" class="col-lg-8 dashboard__messages-main">
-      <div class="dashboard__messages">
-        <div *ngFor="let message of messages" class="dashboard__messages-body"
-          [ngClass]="{'message__from-user': message.from == 'rudolfklih@gmail.com'}">
-          <span class="dashboard__messages-data">{{ message.data }}</span>
-          <span class="dashboard__messages-email">{{ message.from }}</span>
-          <span class="dashboard__messages-time">{{ message.time }}</span>
-        </div>
-      </div>
-      <footer class="dashboard__messages-footer">
-        <mat-form-field class="dashboard__messages-field">
-          <input placeholder="Write a message..." matInput type="text" class="dashboard__messages-input">
-        </mat-form-field>
-      </footer>
+    <main role="main" class="col-lg-8 dashboard__messages-main" *ngIf="selectedUser">
+      <app-chat [user]="selectedUser"></app-chat>
     </main>
-
   </div>
 </div>

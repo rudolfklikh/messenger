@@ -5,8 +5,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap, first, map, filter, flatMap } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
+import { switchMap, map, first } from 'rxjs/operators';
+import { PresenceService } from '../presence/presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone,
-    private cookieService: CookieService
+    public presenceService: PresenceService
   ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -58,7 +58,8 @@ export class AuthService {
   GetAllUsers(): Observable<any> {
     return this.afs.collection('users').snapshotChanges()
       .pipe(
-        map(actions => actions.map(a => a.payload.doc.data() as User))
+        map(actions => actions.map(a => a.payload.doc.data() as User)),
+        map((users: Array<User>) => users.filter((user: User) => user.emailVerified === true))
       );
   }
 
@@ -86,6 +87,10 @@ export class AuthService {
     }
   }
 
+  getUser() {
+    return this.user$.pipe(first()).toPromise();
+  }
+
   get isLoggedIn(): boolean {   // Returns true when user is looged in and email is verified
     const user = JSON.parse(localStorage.getItem('user'));
     return (user !== null && user.emailVerified !== false) ? true : false;
@@ -108,7 +113,8 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified,
+      status: 'offline'
     };
     return userRef.set(userData, {
       merge: true
@@ -116,6 +122,7 @@ export class AuthService {
   }
 
   async SignOut() {   // Sign out
+    await this.presenceService.setPresence('offline');
     await this.afAuth.auth.signOut();
     localStorage.removeItem('user');
     this.router.navigate(['sign-in']);

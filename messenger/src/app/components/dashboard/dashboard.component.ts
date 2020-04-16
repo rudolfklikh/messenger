@@ -4,7 +4,7 @@ import { trigger, transition, useAnimation } from '@angular/animations';
 import { lightSpeedOut, lightSpeedIn } from 'ng-animate';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CookieService } from 'ngx-cookie-service';
+import { User } from 'src/app/shared/intefaces/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,20 +24,10 @@ import { CookieService } from 'ngx-cookie-service';
 export class DashboardComponent implements OnInit {
 
   public toggleBool = false;
-  public usersList;
-  public messages = [
-    {data: 'Hello how are you?', time: '23:03', from: 'fqw@gmail.com'},
-    {data: 'Hello', time: '23:03', from: 'rudfklikh@gmail.com'},
-    {data: 'I am fine', time: '23:03', from: 'rudfklikh@gmail.com'},
-    {data: 'Lol', time: '23:03', from: 'rudolikh@gmail.com'},
-    {data: 'Omega LUL', time: '23:03', from: 'rudolfkh@gmail.com'},
-    {data: 'OMEGA OMEGA LUL', time: '23:03', from: 'rudklikh@gmail.com'},
-    {data: 'STOP SPAMING', time: '23:03', from: 'rudolkh@gmail.com'},
-    {data: 'DUDE RELAX', time: '23:03', from: 'rudolfkkh@gmail.com'},
-    {data: 'RLY GUYS STOP DO THIS SHIT', time: '23:03', from: 'rudolfklih@gmail.com'},
-    {data: 'RLY GUYS STOP DO THIS SHIT', time: '23:03', from: 'rudolfklih@gmail.com'},
-    {data: 'RLY GUYS STOP DO THIS SHIT', time: '23:03', from: 'rudolfklih@gmail.com'},
-  ];
+  public usersList: Array<User>;
+  public selectedUser: User;
+  public user: User;
+
   constructor(
     public authFacadeService: AuthFacadeService,
     public iconRegistry: MatIconRegistry,
@@ -52,8 +42,13 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.authFacadeService.GetAllUsers().subscribe(users => {
+      console.log(users);
       this.usersList = users;
     });
+    this.authFacadeService.GetUser().then(user => {
+      this.user = user;
+    });
+
   }
   toggleHamburger() {
     (this.toggleBool === false) ? this.toggleBool = true : this.toggleBool = false;
@@ -61,5 +56,9 @@ export class DashboardComponent implements OnInit {
 
   SignOut() {
     this.authFacadeService.SignOut();
+  }
+
+  showChat(user: User) {
+    this.selectedUser = user;
   }
 }

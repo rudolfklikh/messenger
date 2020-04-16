@@ -122,10 +122,18 @@ $bar-spacing: 7px;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color:red;
   position: absolute;
   top: 0;
   right: 5px;
+}
+.is-success {
+  background-color: #28a745 ;
+}
+.is-warning {
+  background-color: #ffc107;
+}
+.is-danger {
+  background-color: #dc3545;
 }
 .dashboard__messages {
   height: 90%;

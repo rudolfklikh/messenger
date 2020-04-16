@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { User } from '../../intefaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,8 @@ export class AuthFacadeService {
 
   CheckUserEmail(email: string) {
     return this.authService.checkUserEmail(email);
+  }
+  GetUser() {
+    return this.authService.getUser();
   }
 }
