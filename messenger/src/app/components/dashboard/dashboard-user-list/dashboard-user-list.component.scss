@@ -1,0 +1,27 @@
+@import '../../../styles/variables.scss';
+
+.dashboard__user-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  transition: 0.1s all ease-in-out;
+  cursor: pointer;
+
+  &-text {
+    width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 15px;
+  }
+
+  &:hover {
+    background-color: $main-background-color;
+  }
+}
+.dashboard__user-info-span {
+  font-family: $second-main-font-family;
+  color: $main-buttons-color;
+}

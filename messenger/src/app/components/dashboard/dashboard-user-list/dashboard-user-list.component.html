@@ -1,0 +1,7 @@
+<div *ngFor="let user of usersList" class="dashboard__user-info" (click)="eventUser(user)">
+  <app-dashboard-user [user]="user"></app-dashboard-user>
+
+  <div class="dashboard__user-info-text">
+    <span class="dashboard__user-info-span">{{ user.email }}</span>
+  </div>
+</div>

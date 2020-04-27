@@ -17,8 +17,11 @@ io.on('connection', (socket) => {
 
         socket.on('new-message', (message) => {
                 console.log(message);
+                console.log(users);
                 const user = users.filter((user) => user.id === message.uniqUID)[0];
-                user.socket.emit('new-message', message.msg);
+                const user2 = users.filter((user) => user.id === message.yourUniqUID)[0];
+                user.socket.emit('new-message', message);
+                user2.socket.emit('new-message', message);
         });
 });
 

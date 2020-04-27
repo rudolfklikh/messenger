@@ -1,0 +1,28 @@
+<a (click)="toggleHamburger()" class="dashboard__menu-burger">
+  <div class="dashboard__inside__burger">
+    <div class="menu-wrapper">
+      <div [ngClass]="{'animate': toggleBool === true}" class="hamburger-menu"></div>
+    </div>
+    <span class="dashboard__burger-span">onLine</span>
+  </div>
+</a>
+<nav [@showMenu] *ngIf="toggleBool" class="dashboard__toggle-menu">
+  <ul class="dashboard__toggle-ul">
+    <li class="dashboard__toggle-li">
+      <mat-icon class="dashboard__icons" svgIcon="portfolio"></mat-icon>
+      <a class="dashboard__toggle-link">Profile</a>
+    </li>
+    <li class="dashboard__toggle-li" [routerLink]="['/owner']" routerLinkActive="router-link-active" >
+      <mat-icon class="dashboard__icons" svgIcon="info"></mat-icon>
+      <a class="dashboard__toggle-link">Information about Owner</a>
+    </li>
+    <li class="dashboard__toggle-li">
+      <mat-icon class="dashboard__icons" svgIcon="settings"></mat-icon>
+      <a class="dashboard__toggle-link">Settings</a>
+    </li>
+    <li class="dashboard__toggle-li" (click)="SignOut()">
+      <mat-icon class="dashboard__icons" svgIcon="exit"></mat-icon>
+      <a class="dashboard__toggle-link">Sign Out</a>
+    </li>
+  </ul>
+</nav>

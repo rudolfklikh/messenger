@@ -1,6 +1,7 @@
-@import '../../styles/variables.scss';
+@import '../../../styles/variables.scss';
 
-.forgot__password-container {
+
+.verify__container {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -10,32 +11,28 @@
   padding-bottom: 70px;
   border-radius: 10px;
 }
-.forgot__password-title {
+
+.verify__title {
   font-family: $second-main-font-family;
   font-size: 35px;
   color: $main-font-color;
   text-align: center;
 }
-.forgot__password-paragraph {
-  font-family: $second-main-font-family;
-  font-size: 15px;
-  color: $main-font-color;
-  text-align: center;
+.verify__paragraph {
+  font-size: 16px;
+  color: $main-buttons-color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.forgot__password-form-wrapper {
+.verify__mail {
+  color: $main-font-color;
+}
+.verify__wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
-.forgot__password-form-field {
-  width: 50%;
-  font-family: $second-main-font-family;
-  font-size: 16px;
-  color: $main-font-color;
-}
-
-.forgot__password-form-buttons {
+.verify__form-buttons {
   text-decoration: none;
   outline: none;
   display: inline-block;
@@ -71,11 +68,16 @@
     transition: 0.8s ease-in-out;
   }
 }
-.forgot__password-redirect-to-login {
+.verify__form-redirect-to-login-wrapper {
+  display: flex;
+  justify-content: center;
   margin-top: 25px;
-  flex-direction: row;
 }
-.forgot__password-link {
+.verify__form-redirect-to-login-span {
+  font-size: 16px;
+  color: $main-font-color;
+}
+.verify__form-redirect-to-login-href {
   font-size: 16px;
   color: $main-animations-color;
   margin-left: 10px;
@@ -85,44 +87,4 @@
   &:hover {
     color: $main-buttons-color;
   }
-}
-.forgot__password-span {
-  font-size: 16px;
-  color: $main-font-color;
-}
-.forgot-password__success-icon {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 38px;
-  width: 38px;
-}
-.forgot-password__fail-icon {
-  position: absolute;
-  right: -7px;
-  top: -3px;
-  height: 45px;
-  width: 45px;
-}
-.forgot__password-errors-wrapper {
-  position: relative;
-  width: 50%;
-}
-.forgot__password-errors {
-  position: absolute;
-  right: 0;
-  color: red;
-}
-.forgot__password--margin {
-  margin-top: 15px;
-}
-
-@media screen and (min-device-width: 0px) and (max-device-width: 768px) {
-  .forgot__password-form-field {
-    width: 90%;
-  }
-  .forgot__password-errors-wrapper {
-    width: 90%;
-  }
-
 }

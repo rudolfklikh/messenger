@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ChatService } from 'src/app/shared/services/chat/chat.service';
 import { User } from 'src/app/shared/intefaces/user';
+import { AuthService } from 'src/app/shared/services/authorization/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -15,19 +16,27 @@ export class ChatComponent implements OnInit {
 
   @Input() user: User;
 
-  constructor(private chatService: ChatService) { }
+  private you: User;
+
+  constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.chatService
       .getMessages()
-      .subscribe((message: string) => {
+      .subscribe((message: any) => {
         console.log(message);
         this.messageList.push(message);
+        console.log(this.messageList);
       });
+
+    this.authService.getUser().then(user => {
+      this.you = user;
+    });
   }
 
   sendMessage() {
-    const obj = {uniqUID: this.user.uid, msg: this.newMessage};
+    const obj = {uniqUID: this.user.uid, msg: this.newMessage, yourUniqUID: this.you.uid};
+    console.log(obj);
     this.chatService.sendMessage(obj);
     this.newMessage = '';
   }

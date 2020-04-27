@@ -1,6 +1,19 @@
-<div *ngFor="let message of messageList">
-  {{ message }}
-</div>
+<section class="chat">
+  <div class="chat__messages-area">
+    <div *ngFor="let message of messageList" [ngClass]="{'chat__msg-fromYou': message.fromYou}">
+      <div class="chat__messages" [ngClass]="{'chat__msg-fromYou-wrapper': message.fromYou}">
+        <p class="chat__messages-text">{{ message.msg }}</p>
+      </div>
+    </div>
+  </div>
 
-<input [(ngModel)]="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()" />
-<button (click)="sendMessage()">Send Message</button>
+
+  <div class="chat__write-msg">
+    <mat-form-field class="chat__input-msg chat__smile-icon">
+      <mat-icon matPrefix class="chat__input-send">tag_faces</mat-icon>
+      <input class="chat__matInp-msg" matInput  [(ngModel)]="newMessage" placeholder="Write your message..." (keyup)="$event.keyCode == 13 && sendMessage()" />
+      <mat-icon matSuffix class="chat__input-send">image</mat-icon>
+      <mat-icon matSuffix (click)="sendMessage()" class="chat__input-send">send</mat-icon>
+    </mat-form-field>
+  </div>
+</section>

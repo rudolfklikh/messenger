@@ -9,7 +9,6 @@ import { RouterOutlet } from '@angular/router';
   animations: [routerAnimations]
 })
 export class AppComponent {
-
   getState(outlet: RouterOutlet) {
     return outlet.activatedRouteData.state;
   }

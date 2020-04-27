@@ -2,64 +2,13 @@
 <div class="container dashboard__container">
   <div class="row dashboard__row">
     <nav class="col-lg-4 sidebar dashboard__menu-wrapper">
-      <a (click)="toggleHamburger()" class="dashboard__menu-burger">
-        <div class="dashboard__inside__burger">
-          <div class="menu-wrapper">
-            <div [ngClass]="{'animate': toggleBool === true}" class="hamburger-menu"></div>
-          </div>
-          <span class="dashboard__burger-span">onLine</span>
-        </div>
-      </a>
-      <nav [@showMenu] *ngIf="toggleBool" class="dashboard__toggle-menu">
-        <ul class="dashboard__toggle-ul">
-          <li class="dashboard__toggle-li">
-            <mat-icon class="dashboard__icons" svgIcon="portfolio"></mat-icon>
-            <a class="dashboard__toggle-link">Profile</a>
-          </li>
-          <li class="dashboard__toggle-li">
-            <mat-icon class="dashboard__icons" svgIcon="info"></mat-icon>
-            <a class="dashboard__toggle-link">Information about Owner</a>
-          </li>
-          <li class="dashboard__toggle-li">
-            <mat-icon class="dashboard__icons" svgIcon="settings"></mat-icon>
-            <a class="dashboard__toggle-link">Settings</a>
-          </li>
-          <li class="dashboard__toggle-li" (click)="SignOut()">
-            <mat-icon class="dashboard__icons" svgIcon="exit"></mat-icon>
-            <a class="dashboard__toggle-link">Sign Out</a>
-          </li>
-        </ul>
-      </nav>
-      <div *ngIf="usersList" class="dashboard__user-list">
-        <div *ngFor="let user of usersList" class="dashboard__user-info" (click)="showChat(user)">
-          <div *ngIf="user.photoURL !== null; else dummyIcon" class="dashboard__user-img-wrapper">
-            <img class="dashboard__user-list-img" [src]="user.photoURL">
-            <div class="dashboard__user-status" [ngClass]="{
-              'is-success':  user.status  === 'online',
-              'is-warning': user.status  === 'away',
-              'is-danger':  user.status  === 'offline'
-          }"></div>
-          </div>
-          <ng-template #dummyIcon>
-            <div class="dashboard__user-img-wrapper">
-              <mat-icon class="dashboard__user-list-icons" svgIcon="dummyprofile"></mat-icon>
-              <div class="dashboard__user-status" [ngClass]="{
-                'is-success':  user.status  === 'online',
-                'is-warning': user.status  === 'away',
-                'is-danger':  user.status  === 'offline'
-            }">
+      <app-dashboard-menu></app-dashboard-menu>
 
-              </div>
-            </div>
-          </ng-template>
-
-          <div class="dashboard__user-info-text">
-            <span class="dashboard__user-info-span">{{ user.email }}</span>
-          </div>
-        </div>
+      <div class="dashboard__user-list">
+        <app-dashboard-user-list (emitUser)="showChat($event)"></app-dashboard-user-list>
       </div>
     </nav>
-    <!-- Main content -->
+
     <main role="main" class="col-lg-8 dashboard__messages-main" *ngIf="selectedUser">
       <app-chat [user]="selectedUser"></app-chat>
     </main>

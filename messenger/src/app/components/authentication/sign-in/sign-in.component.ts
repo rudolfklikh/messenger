@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { trigger, transition, useAnimation } from '@angular/animations';
 import { wobble, rubberBand, shake, zoomOutRight } from 'ng-animate';
 import { AuthFacadeService } from 'src/app/shared/services/authorization/auth-facade.service';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../../app.reducer';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -32,7 +34,8 @@ export class SignInComponent implements OnInit {
     public authFacadeService: AuthFacadeService,
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private store: Store<fromRoot.State>
   ) {
     iconRegistry.addSvgIcon('google', sanitizer.bypassSecurityTrustResourceUrl('assets/google.svg'));
     iconRegistry.addSvgIcon('success', sanitizer.bypassSecurityTrustResourceUrl('assets/success.svg'));
@@ -56,8 +59,7 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   SignIn() {
     const userData = this.loginForm.value;

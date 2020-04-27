@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, first } from 'rxjs/operators';
 import { PresenceService } from '../presence/presence.service';
-
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../../app.reducer';
+import * as authActions from '../../../components/authentication/store/actions/authentication.actions';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,12 +23,21 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone,
-    public presenceService: PresenceService
+    public presenceService: PresenceService,
+    private store: Store<fromRoot.State>
   ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
+          this.store.dispatch(new authActions.SetAuthenticated(
+            {
+              isLogged: true,
+              isLoggining: false,
+              status: 'online',
+              UID: user.uid
+            }));
+          this.presenceService.combineAuthState();
           return this.afs.doc<any>(`users/${user.uid}`).valueChanges();
         } else {
           localStorage.setItem('user', null);
@@ -122,10 +133,13 @@ export class AuthService {
   }
 
   async SignOut() {   // Sign out
-    await this.presenceService.setPresence('offline');
-    await this.afAuth.auth.signOut();
-    localStorage.removeItem('user');
+    this.store.dispatch(new authActions.SetUnauthenticated({
+        isLogged: false,
+        isLoggining: false,
+        status: 'offline',
+        UID: JSON.parse(localStorage.getItem('user')).uid
+      }));
     this.router.navigate(['sign-in']);
+    localStorage.removeItem('user');
   }
-
 }

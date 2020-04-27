@@ -1,31 +1,62 @@
-@import '../../styles/variables.scss';
+@import '../../../styles/variables.scss';
 
-.sign__up-container {
+.sign-in__container {
+  display: flex;
+  justify-content: center;
   font-family: $main-font-family;
   background-color: #ffffff;
   padding-top: 70px;
   padding-bottom: 70px;
   border-radius: 10px;
 }
-.sign__up-title {
+.sign-in__content-block {
+  width: 50%;
+}
+.sign-in__form-field {
+  width: 100%;
+  font-family: $second-main-font-family;
+  font-size: 16px;
+}
+.sign-in__form-input {
+  color: $main-font-color;
+}
+.sign-in__form {
+  width: 100%;
+}
+
+.sign-in__form-buttons-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 15px;
+}
+.sign-in__buttons_parent {
+  width: 100%;
+
+  & button {
+    width: 100%;
+  }
+}
+
+.sign-in__title {
   font-family: $second-main-font-family;
   font-size: 35px;
   color: $main-font-color;
   text-align: center;
 }
-.sign__up-form-wrapper {
+.sign-in__form-wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  font-family: $main-font-family;
 }
-.sign__up-form-field {
-  width: 50%;
-  font-family: $second-main-font-family;
-  font-size: 16px;
-  color: $main-font-color;
+
+.sign-in__form-icon {
+  margin-left: 7px;
 }
-.sign__up-form-buttons {
+.sign-in__form-buttons {
   text-decoration: none;
   outline: none;
   display: inline-block;
@@ -38,7 +69,6 @@
   font-family: $main-font-family;
   color: $main-buttons-color;
   transition: .4s ease-in-out;
-  width: 50%;
 
   &::before {
     content: "";
@@ -62,15 +92,32 @@
     transition: 0.8s ease-in-out;
   }
 }
-.sign__up-redirect-to-login {
+
+.sign-in__form__forgot-password {
   text-align: center;
+  margin-top: 15px ;
+  font-size: 15px !important;
+  font-family: $second-main-font-family !important;
+  & a {
+    color: $main-animations-color;
+    text-decoration: none;
+    transition: 0.4s all ease-in-out;
+
+    &:hover {
+      color: $main-buttons-color;
+    }
+  }
+}
+.sign-in__form-redirect-to-login-wrapper {
+  display: flex;
+  justify-content: center;
   margin-top: 25px;
 }
-.sign-up__form-redirect-to-login-span {
+.sign-in__form-redirect-to-login-span {
   font-size: 16px;
   color: $main-font-color;
 }
-.sign-up__form-redirect-to-login-href {
+.sign-in__form-redirect-to-login-href {
   font-size: 16px;
   color: $main-animations-color;
   margin-left: 10px;
@@ -81,71 +128,33 @@
     color: $main-buttons-color;
   }
 }
-.sign__up-form-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 
-.sign__up-success-icon {
+.sign-in__success-icon {
   position: absolute;
   right: 0;
   top: 0;
   height: 38px;
   width: 38px;
 }
-.sign__up-fail-icon {
+.sign-in__fail-icon {
   position: absolute;
   right: -7px;
   top: -3px;
   height: 45px;
   width: 45px;
 }
-.sign__up-errors-wrapper {
+.sign-in__errors-wrapper {
   position: relative;
-  width: 50%;
 }
-.sign__up-errors {
+.sign-in__errors {
   position: absolute;
   right: 0;
   color: red;
 }
-.sign__up--margin {
-  margin-top: 20px;
-}
-.sign__up-spinner {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.login__password-protection {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.3rem;
-}
-.password__difficulty {
-  background-color: gainsboro;
-  width: 60%;
-  height: 10px;
-}
-span {
-  font-size: .7rem;
-  color: #00c851;
-}
+
+// MEDIA
 @media screen and (min-device-width: 0px) and (max-device-width: 768px) {
-  .sign__up-form-field {
-    width: 90%;
-  }
-  .sign__up-form-buttons {
-    width: 90%;
-  }
-  .sign__up-errors-wrapper {
-    width: 95%;
-  }
-  .password__difficulty {
-    width: 50%;
+  .sign-in__content-block {
+    width: 100%;
   }
 }

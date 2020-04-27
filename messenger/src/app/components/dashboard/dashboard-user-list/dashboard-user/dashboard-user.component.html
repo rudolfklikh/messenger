@@ -1,0 +1,20 @@
+<div *ngIf="user.photoURL !== null; else dummyIcon" class="dashboard__user-img-wrapper">
+  <img class="dashboard__user-list-img" [src]="user.photoURL">
+  <div class="dashboard__user-status" [ngClass]="{
+      'is-success':  user.status  === 'online',
+      'is-warning': user.status  === 'away',
+      'is-danger':  user.status  === 'offline'
+  }"></div>
+</div>
+<ng-template #dummyIcon>
+  <div class="dashboard__user-img-wrapper">
+    <mat-icon class="dashboard__user-list-icons" svgIcon="dummyprofile"></mat-icon>
+    <div class="dashboard__user-status" [ngClass]="{
+        'is-success':  user.status  === 'online',
+        'is-warning': user.status  === 'away',
+        'is-danger':  user.status  === 'offline'
+    }">
+    </div>
+  </div>
+</ng-template>
+
