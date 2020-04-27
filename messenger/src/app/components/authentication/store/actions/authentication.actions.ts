@@ -4,8 +4,8 @@ import { status, AuthUserState } from '../state/authentication.state';
 export enum AuthActions  {
   SetAuth = '[AUTHENTICATION] Set Authenticated',
   SetUnauth = '[AUTHENTICATION] Set Unauthenticated',
-  SetAway = '[AUTHENTICATION] Set Away',
-  SetInitial = '[AUTHENTICATION] Set Initial'
+  SetStatus = '[AUTHENTICATION] Set Status',
+  SetInitial = '[AUTHENTICATION] Set Initial',
 }
 
 export class SetAuthenticated implements Action {
@@ -16,12 +16,12 @@ export class SetUnauthenticated implements Action {
   readonly type = AuthActions.SetUnauth;
   constructor(public payload: AuthUserState) {}
 }
-export class SetAway implements Action {
-  readonly type = AuthActions.SetAway;
-  constructor(public payload: AuthUserState) {}
+export class SetStatus implements Action {
+  readonly type = AuthActions.SetStatus;
+  constructor(public payload: status) {}
 }
 export class SetInitial implements Action {
   readonly type = AuthActions.SetInitial;
 }
 
-export type AuthenticatedActions = SetAuthenticated | SetUnauthenticated | SetAway | SetInitial;
+export type AuthenticatedActions = SetAuthenticated | SetUnauthenticated | SetStatus | SetInitial;

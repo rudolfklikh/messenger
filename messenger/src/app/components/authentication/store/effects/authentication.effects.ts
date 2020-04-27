@@ -22,10 +22,6 @@ export class AuthEffects {
     )
   );
 
-
-
-
-
   constructor(
     private actions$: Actions,
     private afs: AngularFirestore,

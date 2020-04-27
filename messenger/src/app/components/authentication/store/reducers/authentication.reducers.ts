@@ -14,13 +14,10 @@ export const authenticationReducers = (state = initialAuthUserState, action: Aut
         UID: action.payload.UID
       };
     }
-    case AuthActions.SetAway: {
+    case AuthActions.SetStatus: {
       return {
         ...state,
-        isLogged: action.payload.isLogged,
-        isLoggining: action.payload.isLoggining,
-        status: action.payload.status,
-        UID: action.payload.UID
+        status: action.payload,
       };
     }
     case AuthActions.SetInitial: {
