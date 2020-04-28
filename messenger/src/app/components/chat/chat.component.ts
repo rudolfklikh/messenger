@@ -23,11 +23,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.chatService
       .getMessages()
-      .subscribe((message: any) => {
-        console.log(message);
-        this.messageList.push(message);
-        console.log(this.messageList);
-      });
+      .subscribe((message: any) => this.messageList.push(message));
 
     this.authService.getUser().then(user => {
       this.you = user;
@@ -36,7 +32,6 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     const obj = {uniqUID: this.user.uid, msg: this.newMessage, yourUniqUID: this.you.uid};
-    console.log(obj);
     this.chatService.sendMessage(obj);
     this.newMessage = '';
   }

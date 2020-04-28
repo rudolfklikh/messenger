@@ -12,12 +12,11 @@ export class ChatService {
   constructor(private socket: Socket, private authService: AuthService) {}
 
   public sendMessage(message) {
-    console.log(message);
     this.socket.emit('new-message', message);
   }
 
   public getMessages = () => {
-    return Observable.create((observer) => {
+    return new Observable<any>((observer) => {
       this.socket.on('new-message', (message) => {
         this.authService.getUser().then((user: User) => {
           if (user.uid === message.yourUniqUID) {

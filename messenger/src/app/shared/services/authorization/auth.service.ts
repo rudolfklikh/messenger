@@ -10,6 +10,7 @@ import { PresenceService } from '../presence/presence.service';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../app.reducer';
 import * as authActions from '../../../components/authentication/store/actions/authentication.actions';
+import { Socket } from 'ngx-socket-io';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,11 +20,11 @@ export class AuthService {
   user$: Observable<any>;
 
   constructor(
-    public afs: AngularFirestore,   // Inject Firestore service
-    public afAuth: AngularFireAuth, // Inject Firebase auth service
-    public router: Router,
-    public ngZone: NgZone,
-    public presenceService: PresenceService,
+    private afs: AngularFirestore,   // Inject Firestore service
+    private afAuth: AngularFireAuth, // Inject Firebase auth service
+    private router: Router,
+    private presenceService: PresenceService,
+    private socket: Socket,
     private store: Store<fromRoot.State>
   ) {
     this.user$ = this.afAuth.authState.pipe(
@@ -116,7 +117,6 @@ export class AuthService {
       window.alert(error);
     }
   }
-
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
@@ -131,7 +131,6 @@ export class AuthService {
       merge: true
     });
   }
-
   async SignOut() {   // Sign out
     this.store.dispatch(new authActions.SetUnauthenticated({
         isLogged: false,
