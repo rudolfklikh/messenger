@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { trigger, transition, useAnimation } from '@angular/animations';
 import { lightSpeedIn, lightSpeedOut } from 'ng-animate';
 import { MatIconRegistry } from '@angular/material/icon';

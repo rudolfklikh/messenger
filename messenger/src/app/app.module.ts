@@ -36,6 +36,7 @@ import { DashboardUserListComponent } from './components/dashboard/dashboard-use
 import { DashboardUserComponent } from './components/dashboard/dashboard-user-list/dashboard-user/dashboard-user.component';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './components/authentication/store/effects/authentication.effects';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -76,7 +77,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     FormsModule,
     MatButtonModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects])
+    EffectsModule.forRoot([AuthEffects]),
+    MatSnackBarModule
   ],
   providers: [ AuthService, CookieService ],
   bootstrap: [AppComponent]

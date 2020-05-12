@@ -23,7 +23,9 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.chatService
       .getMessages()
-      .subscribe((message: any) => this.messageList.push(message));
+      .subscribe((message: any) => {
+        this.messageList.push(message);
+      });
 
     this.authService.getUser().then(user => {
       this.you = user;

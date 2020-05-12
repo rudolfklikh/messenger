@@ -1,41 +1,38 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { User } from '../../intefaces/user';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../../app.reducer';
+import * as authActions from '../../../components/authentication/store/actions/authentication.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthFacadeService {
 
-  constructor(private authService: AuthService, public router: Router) { }
+  constructor(private authService: AuthService, public router: Router, private store: Store<fromRoot.State>) { }
 
   SignIn(email: string, password: string) {
-    this.authService.SignIn(email, password);
+    this.store.dispatch(new authActions.SetLogin({ email, password }));
   }
-
+  SignUp(email: string, password: string) {
+    this.store.dispatch(new authActions.SetRegister({ email, password }));
+  }
+  ResetPassword(email: string) {
+    this.store.dispatch(new authActions.ResetPassword(email));
+  }
   signInWithGoogle() {
     this.authService.GoogleAuth();
-  }
-
-  SignUp(email: string, password: string) {
-    this.authService.SignUp(email, password);
   }
   ResendVerificationLink() {
     this.authService.SendVerificationMail();
   }
-  ResetPassword(email: string) {
-    this.authService.ForgotPassword(email);
-  }
-
   SignOut() {
     this.authService.SignOut();
   }
-
   GetAllUsers() {
     return this.authService.GetAllUsers();
   }
-
   CheckUserEmail(email: string) {
     return this.authService.checkUserEmail(email);
   }

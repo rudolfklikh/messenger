@@ -12,7 +12,7 @@ export const initialAuthUserState: AuthUserState = {
   isLogged: false,
   isLoggining: false,
   status: 'offline',
-  UID: ''
+  UID: '',
 };
 
 

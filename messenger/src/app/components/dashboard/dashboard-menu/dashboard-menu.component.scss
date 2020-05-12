@@ -41,6 +41,8 @@ $bar-spacing: 7px;
   margin-top: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 
   &:hover {
     background-color: $main-buttons-color;

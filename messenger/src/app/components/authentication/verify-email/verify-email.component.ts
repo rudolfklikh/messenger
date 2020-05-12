@@ -11,7 +11,7 @@ export class VerifyEmailComponent implements OnInit {
   constructor(public authFacade: AuthFacadeService) { }
   userEmail: string;
   ngOnInit() {
-    this.userEmail = JSON.parse(localStorage.getItem('user')).email;
+    this.userEmail = localStorage.getItem('email');
   }
 
   resendVerificationLink() {

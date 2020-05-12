@@ -9,17 +9,21 @@ import { User } from '../../intefaces/user';
   providedIn: 'root'
 })
 export class ChatService {
-  constructor(private socket: Socket, private authService: AuthService) {}
+  constructor(private socket: Socket, private authService: AuthService) {
+  }
 
   public sendMessage(message) {
     this.socket.emit('new-message', message);
   }
 
   public getMessages = () => {
-    return new Observable<any>((observer) => {
+    console.log('Hello');
+    return Observable.create((observer) => {
       this.socket.on('new-message', (message) => {
+        console.log(message);
         this.authService.getUser().then((user: User) => {
           if (user.uid === message.yourUniqUID) {
+            console.log('Hello');
             const msgFromYou = {
               ...message,
               fromYou: true

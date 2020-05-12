@@ -3,14 +3,10 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../app.reducer';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { status } from 'src/app/components/authentication/store/state/authentication.state';
 import { AuthState } from '../../intefaces/auth-state';
 import * as authActions from '../../../components/authentication/store/actions/authentication.actions';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { Socket } from 'ngx-socket-io';
-import { AuthService } from '../authorization/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +15,7 @@ export class PresenceService {
   private storeStatus$: Observable<status>;
   private storeUID$: Observable<string>;
 
-  constructor(
-    private afs: AngularFirestore,
-    private store: Store<fromRoot.State>,
-    private afAuth: AngularFireAuth,
-    private db: AngularFireDatabase,
-    private socket: Socket) {
+  constructor( private afs: AngularFirestore, private store: Store<fromRoot.State>) {
     this.updateOnAway();
   }
 
