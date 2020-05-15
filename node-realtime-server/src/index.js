@@ -38,10 +38,8 @@ io.on('connection', (socket) => {
         console.log(parseCookies(socket.handshake.headers.cookie).uniqUid, 'ON CONNECT PROSZĘ BARDZO');
         socket.on('new-message', (message) => {
                 console.log(message);
-                const user = users.filter((user) => user.id === message.uniqUID)[0];
-                const user2 = users.filter((user) => user.id === message.yourUniqUID)[0];
-                user.socket.emit('new-message', message);
-                user2.socket.emit('new-message', message);
+                const MessageRef = db.collection(`messages`);
+                MessageRef.add(message);
         });
 
         socket.on('disconnect', () => {

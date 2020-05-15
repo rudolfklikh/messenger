@@ -77,5 +77,46 @@
   }
 }
 .mat-icon {
-  width: 1.5em !important;
+  width: 1.5em;
+}
+
+.chat__section-user {
+  background-color: $main-buttons-color;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  &-email {
+    color: #ffffff;
+    font-family: $second-main-font-family;
+    font-size: 17px;
+  }
+
+  &-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  &-dummy-img {
+    height: 45px;
+    width: 45px;
+    margin-right: 5px;
+  }
+
+  &-modal {
+    color: #ffffff;
+    font-family: $second-main-font-family;
+    font-size: 17px;
+    transition: 0.2s all ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      color: $main-background-color;
+    }
+  }
 }

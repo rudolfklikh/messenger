@@ -39,7 +39,6 @@ export class AuthService {
       this.presenceService.combineAuthState();
       this.user$ = of(JSON.parse(localStorage.getItem('user')));
     } else {
-      console.log('USER === NULL');
       this.user$ = of(null);
       this.cookieService.delete('uniqUid');
     }

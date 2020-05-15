@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { User } from 'src/app/shared/intefaces/user';
 import { Socket } from 'ngx-socket-io';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   opened: boolean;
   mobileSize = false;
   constructor(
+    private router: Router,
     private socket: Socket,
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer) {
@@ -32,6 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.mobileSize = false;
     }
     this.selectedUser = user;
+    this.router.navigate(['/dashboard'], { queryParams:  { uid: user.uid } });
   }
   ngOnDestroy(): void {
     this.socket.disconnect();

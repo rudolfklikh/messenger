@@ -1,7 +1,22 @@
 <section class="chat">
+  <div class="chat__section-user" *ngIf="!mobileSize">
+    <span class="chat__section-user-email"> {{ user.email}} </span>
+
+    <div>
+      <img class="chat__section-user-img" [src]="user.photoURL" *ngIf="user.photoURL !== null; else dummyIcon">
+      <ng-template #dummyIcon>
+        <mat-icon class="chat__section-user-dummy-img" svgIcon="dummyprofile"></mat-icon>
+      </ng-template>
+      <span class="chat__section-user-email">{{ user.status }}</span>
+    </div>
+    <span class="chat__section-user-modal">
+      More about profile
+      <mat-icon svgIcon='interface'></mat-icon>
+    </span>
+  </div>
   <div class="chat__messages-area">
-    <div *ngFor="let message of messageList" [ngClass]="{'chat__msg-fromYou': message.fromYou}">
-      <div class="chat__messages" [ngClass]="{'chat__msg-fromYou-wrapper': message.fromYou}">
+    <div *ngFor="let message of messages" [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
+      <div class="chat__messages" [ngClass]="{'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID}">
         <p class="chat__messages-text">{{ message.msg }}</p>
       </div>
     </div>
