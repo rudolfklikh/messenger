@@ -6,7 +6,9 @@ import { User } from 'src/app/shared/intefaces/user';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog  } from '@angular/material/dialog';
 import * as moment from 'moment';
+import { ModalInfoComponent } from './modal-info/modal-info.component';
 
 @Component({
   selector: 'app-chat',
@@ -24,8 +26,9 @@ export class ChatComponent implements OnInit {
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer,
     private chatService: ChatService,
+    public modalInfo: MatDialog,
     private activatedRoute: ActivatedRoute) {
-    iconRegistry.addSvgIcon('interface', sanitizer.bypassSecurityTrustResourceUrl('assets/interface.svg'));
+    iconRegistry.addSvgIcon('interface', sanitizer.bypassSecurityTrustResourceUrl('assets/chat/interface.svg'));
   }
 
   ngOnInit(): void {
@@ -50,5 +53,13 @@ export class ChatComponent implements OnInit {
     } else {
       return;
     }
+  }
+
+  showModalInfo() {
+    console.log('Hello');
+    this.modalInfo.open(ModalInfoComponent, {
+      panelClass: 'modal-info-dialog',
+      data: this.user
+    });
   }
 }

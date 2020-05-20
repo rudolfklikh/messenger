@@ -37,6 +37,9 @@ import { DashboardUserComponent } from './components/dashboard/dashboard-user-li
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './components/authentication/store/effects/authentication.effects';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalInfoComponent } from './components/chat/modal-info/modal-info.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -55,7 +58,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     OwnerComponent,
     DashboardMenuComponent,
     DashboardUserListComponent,
-    DashboardUserComponent
+    DashboardUserComponent,
+    ModalInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +82,9 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatButtonModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule,
+    MatSlideToggleModule
   ],
   providers: [ AuthService, CookieService ],
   bootstrap: [AppComponent]

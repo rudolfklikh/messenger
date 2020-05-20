@@ -27,10 +27,10 @@ export class DashboardMenuComponent implements OnInit {
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer,
     private authFacadeService: AuthFacadeService) {
-    iconRegistry.addSvgIcon('portfolio', sanitizer.bypassSecurityTrustResourceUrl('assets/portfolio.svg'));
-    iconRegistry.addSvgIcon('info', sanitizer.bypassSecurityTrustResourceUrl('assets/info.svg'));
-    iconRegistry.addSvgIcon('settings', sanitizer.bypassSecurityTrustResourceUrl('assets/worker.svg'));
-    iconRegistry.addSvgIcon('exit', sanitizer.bypassSecurityTrustResourceUrl('assets/exit.svg'));
+    iconRegistry.addSvgIcon('portfolio', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/dashboard-menu/portfolio.svg'));
+    iconRegistry.addSvgIcon('info', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/dashboard-menu/info.svg'));
+    iconRegistry.addSvgIcon('settings', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/dashboard-menu/worker.svg'));
+    iconRegistry.addSvgIcon('exit', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/dashboard-menu/exit.svg'));
   }
 
   ngOnInit(): void {

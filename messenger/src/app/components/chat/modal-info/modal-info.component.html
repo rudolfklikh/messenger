@@ -1,0 +1,39 @@
+<div>
+  <section class="modal-info__header">
+    <div class="modal-info__header-top">
+      <span class="modal-info__header-top-span">Contact info</span>
+      <button mat-fab  mat-dialog-close color="accent">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+    <div class="modal-info__header-body">
+      <img class="modal-info__header-body-img" [src]="data.photoURL" *ngIf="data.photoURL !== null; else dummyIcon">
+      <ng-template #dummyIcon>
+        <mat-icon class="modal-info__header-body-dummy-img" svgIcon="dummyprofile"></mat-icon>
+      </ng-template>
+      <div class="modal-info__header-body-wrapper">
+        <span class="modal-info__header-body-wrapper-span">{{ data.email }}</span>
+        <span class="modal-info__header-body-wrapper-span">{{ data.status }}</span>
+      </div>
+    </div>
+  </section>
+  <section class="modal-info__body">
+    <ul class="modal-info__body-ul">
+      <li>
+        <mat-icon class="modal-info__body-ul-icon" svgIcon='mail'></mat-icon>
+        <span class="modal-info__body-ul-span">Email:  {{ data.email }}</span>
+      </li>
+      <li>
+        <mat-icon class="modal-info__body-ul-icon" svgIcon='about'></mat-icon>
+        <span class="modal-info__body-ul-span">About:  I am super cool boy</span>
+      </li>
+      <li>
+        <mat-icon class="modal-info__body-ul-icon" svgIcon='notification'></mat-icon>
+        <span class="modal-info__body-ul-span">
+          Notification:
+          <mat-slide-toggle class="modal-info__body-ul-slide"></mat-slide-toggle>
+        </span>
+      </li>
+    </ul>
+  </section>
+</div>

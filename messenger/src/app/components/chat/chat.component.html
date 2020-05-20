@@ -9,7 +9,7 @@
       </ng-template>
       <span class="chat__section-user-email">{{ user.status }}</span>
     </div>
-    <span class="chat__section-user-modal">
+    <span class="chat__section-user-modal" (click)="showModalInfo()">
       More about profile
       <mat-icon svgIcon='interface'></mat-icon>
     </span>

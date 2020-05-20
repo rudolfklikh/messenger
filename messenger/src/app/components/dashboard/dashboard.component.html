@@ -17,9 +17,9 @@
           <p class="dashboard__mobile__menu-span">{{ selectedUser.email }}</p>
           <p class="dashboard__mobile__menu-span">{{ selectedUser.status }}</p>
         </div>
-        <img class="dashboard__mobile__menu-img" [src]="selectedUser.photoURL" *ngIf="selectedUser.photoURL !== null; else dummyIcon">
+        <img class="dashboard__mobile__menu-img" (click)="showModalInfo()" [src]="selectedUser.photoURL" *ngIf="selectedUser.photoURL !== null; else dummyIcon">
         <ng-template #dummyIcon>
-          <mat-icon class="dashboard__mobile__menu-img" svgIcon="dummyprofile"></mat-icon>
+          <mat-icon class="dashboard__mobile__menu-img" (click)="showModalInfo()" svgIcon="dummyprofile"></mat-icon>
         </ng-template>
       </div>
       <app-chat [user]="selectedUser"></app-chat>
