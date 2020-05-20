@@ -5,6 +5,8 @@ import { ChatService } from 'src/app/shared/services/chat/chat.service';
 import { User } from 'src/app/shared/intefaces/user';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chat',
@@ -13,18 +15,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ChatComponent implements OnInit {
   @Input() user: User;
-  public newMessage: string;
   public messages = [];
+  public mobileSize: boolean;
+  public newMessage = new FormControl('', [Validators.required]);
   private currentUser: User;
-  public mobileSize;
 
   constructor(
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer,
     private chatService: ChatService,
     private activatedRoute: ActivatedRoute) {
-      iconRegistry.addSvgIcon('interface', sanitizer.bypassSecurityTrustResourceUrl('assets/interface.svg'));
-    }
+    iconRegistry.addSvgIcon('interface', sanitizer.bypassSecurityTrustResourceUrl('assets/interface.svg'));
+  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.pipe(
@@ -35,14 +37,18 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    const obj = {
-      uniqUID: this.user.uid,
-      msg: this.newMessage,
-      yourUniqUID: this.currentUser.uid,
-      fromUsers: [this.user.uid, this.currentUser.uid]
-    };
-    this.chatService.sendMessage(obj);
-    this.newMessage = '';
+    if (this.newMessage.value) {
+      const message = {
+        uniqUID: this.user.uid,
+        msg: this.newMessage.value,
+        yourUniqUID: this.currentUser.uid,
+        fromUsers: [this.user.uid, this.currentUser.uid],
+        date: moment().format('MMMM Do YYYY, h:mm:ss a')
+      };
+      this.chatService.sendMessage(message);
+      this.newMessage.setValue('');
+    } else {
+      return;
+    }
   }
-
 }

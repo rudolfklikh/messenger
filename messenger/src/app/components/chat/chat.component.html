@@ -18,13 +18,14 @@
     <div *ngFor="let message of messages" [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
       <div class="chat__messages" [ngClass]="{'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID}">
         <p class="chat__messages-text">{{ message.msg }}</p>
+        <span>{{ message.date }}</span>
       </div>
     </div>
   </div>
   <div class="chat__write-msg">
     <mat-form-field class="chat__input-msg chat__smile-icon">
       <mat-icon matPrefix class="chat__input-send">tag_faces</mat-icon>
-      <input class="chat__matInp-msg" matInput  [(ngModel)]="newMessage" placeholder="Write your message..." (keyup)="$event.keyCode == 13 && sendMessage()" />
+      <input class="chat__matInp-msg" matInput [formControl]="newMessage" placeholder="Write your message..." (keyup)="$event.keyCode == 13 && sendMessage()" />
       <mat-icon matSuffix class="chat__input-send">image</mat-icon>
       <mat-icon matSuffix (click)="sendMessage()" class="chat__input-send">send</mat-icon>
     </mat-form-field>
