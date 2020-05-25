@@ -23,6 +23,7 @@ const users = [];
 const port = process.env.PORT || 3000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const moment = require('moment');
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -49,7 +50,7 @@ io.on('connection', (socket) => {
                 if (uniqUid) {
 
                         setTimeout(() => {
-                                const status = { status: 'offline' };
+                                const status = { status: 'offline', lastVisit: moment().format('MMMM Do YYYY, h:mm:ss a') };
                                 UserRef.set(status, {
                                         merge: true
                                 });
