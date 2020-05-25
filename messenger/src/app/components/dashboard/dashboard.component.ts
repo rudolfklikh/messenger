@@ -6,6 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalInfoComponent } from '../chat/modal-info/modal-info.component';
+import * as moment from 'moment';
 
 
 @Component({
@@ -15,15 +16,16 @@ import { ModalInfoComponent } from '../chat/modal-info/modal-info.component';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public selectedUser: User;
-  opened: boolean;
-  mobileSize = false;
+  public opened: boolean;
+  public mobileSize = false;
+  public moment: any = moment;
   constructor(
     private router: Router,
     private socket: Socket,
     public iconRegistry: MatIconRegistry,
     public modalInfo: MatDialog,
     public sanitizer: DomSanitizer) {
-      iconRegistry.addSvgIcon('back', sanitizer.bypassSecurityTrustResourceUrl('assets/curve.svg'));
+      iconRegistry.addSvgIcon('back', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/curve.svg'));
       iconRegistry.addSvgIcon('dummyprofile', sanitizer.bypassSecurityTrustResourceUrl('assets/dummyprofile.svg'));
     }
   ngOnInit() {

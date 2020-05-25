@@ -16,6 +16,9 @@
         <div class="dashboard__mobile__menu-info">
           <p class="dashboard__mobile__menu-span">{{ selectedUser.email }}</p>
           <p class="dashboard__mobile__menu-span">{{ selectedUser.status }}</p>
+          <p class="dashboard__mobile__menu-last-visit"
+        *ngIf="selectedUser.status === 'offline' && this.moment(selectedUser.lastVisit, 'MMMM Do YYYY, h:mm:ss a').fromNow() !== 'Invalid date'">
+        Last seen {{ moment(selectedUser.lastVisit, 'MMMM Do YYYY, h:mm:ss a').fromNow() }} </p>
         </div>
         <img class="dashboard__mobile__menu-img" (click)="showModalInfo()" [src]="selectedUser.photoURL" *ngIf="selectedUser.photoURL !== null; else dummyIcon">
         <ng-template #dummyIcon>

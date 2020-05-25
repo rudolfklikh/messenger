@@ -1,22 +1,30 @@
 <section class="chat">
   <div class="chat__section-user" *ngIf="!mobileSize">
     <span class="chat__section-user-email"> {{ user.email}} </span>
-
     <div>
-      <img class="chat__section-user-img" [src]="user.photoURL" *ngIf="user.photoURL !== null; else dummyIcon">
-      <ng-template #dummyIcon>
-        <mat-icon class="chat__section-user-dummy-img" svgIcon="dummyprofile"></mat-icon>
-      </ng-template>
-      <span class="chat__section-user-email">{{ user.status }}</span>
+      <div class="chat__wrapper-info">
+        <img class="chat__section-user-img" [src]="user.photoURL" *ngIf="user.photoURL !== null; else dummyIcon">
+        <ng-template #dummyIcon>
+          <mat-icon class="chat__section-user-dummy-img" svgIcon="dummyprofile"></mat-icon>
+        </ng-template>
+        <span class="chat__section-user-email">{{ user.status }}</span>
+      </div>
+      <p class="chat__last-visit-span"
+        *ngIf="user.status === 'offline' && this.moment(user.lastVisit, 'MMMM Do YYYY, h:mm:ss a').fromNow() !== 'Invalid date'">
+        Last seen {{ moment(user.lastVisit, 'MMMM Do YYYY, h:mm:ss a').fromNow() }} </p>
     </div>
     <span class="chat__section-user-modal" (click)="showModalInfo()">
       More about profile
       <mat-icon svgIcon='interface'></mat-icon>
     </span>
   </div>
-  <div class="chat__messages-area">
-    <div *ngFor="let message of messages" [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
-      <div class="chat__messages" [ngClass]="{'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID}">
+  <div class="chat__messages-area" #msgContainer>
+    <div *ngFor="let message of messages; index as i; trackBy: trackByMsg"
+      [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
+      <div class="chat__messages" [ngClass]=" {
+        'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID,
+        'chat__msg-last': index === messages.length - 1
+      }">
         <p class="chat__messages-text">{{ message.msg }}</p>
         <span>{{ message.date }}</span>
       </div>
@@ -25,7 +33,8 @@
   <div class="chat__write-msg">
     <mat-form-field class="chat__input-msg chat__smile-icon">
       <mat-icon matPrefix class="chat__input-send">tag_faces</mat-icon>
-      <input class="chat__matInp-msg" matInput [formControl]="newMessage" placeholder="Write your message..." (keyup)="$event.keyCode == 13 && sendMessage()" />
+      <input class="chat__matInp-msg" matInput [formControl]="newMessage" placeholder="Write your message..."
+        (keyup)="$event.keyCode == 13 && sendMessage()" />
       <mat-icon matSuffix class="chat__input-send">image</mat-icon>
       <mat-icon matSuffix (click)="sendMessage()" class="chat__input-send">send</mat-icon>
     </mat-form-field>

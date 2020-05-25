@@ -7,5 +7,5 @@ export interface User {
   photoURL: string;
   emailVerified: boolean;
   status: status;
-  timeStamp?: any;
+  lastVisit?: Date;
 }

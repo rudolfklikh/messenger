@@ -30,8 +30,6 @@ export class AuthService {
     private presenceService: PresenceService,
     private cookieService: CookieService,
   ) {
-    console.log('Construktor');
-    console.log(JSON.parse(localStorage.getItem('user')));
     if (JSON.parse(localStorage.getItem('user'))) {
       const UID = JSON.parse(localStorage.getItem('user')).uid;
       this.cookieService.set('uniqUid', UID);

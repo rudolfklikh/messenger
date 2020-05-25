@@ -14,13 +14,14 @@ import { User } from 'src/app/shared/intefaces/user';
 import { Err } from 'src/app/shared/intefaces/error';
 import { PresenceService } from 'src/app/shared/services/presence/presence.service';
 import { CookieService } from 'ngx-cookie-service';
+import * as moment from 'moment';
 
 @Injectable()
 export class AuthEffects {
   @Effect() unAuth$: Observable<Action> = this.actions$.pipe(
     ofType(authActions.AuthActions.SetUnauth),
     map((action: authActions.SetUnauthenticated) => action.payload),
-    switchMap(({ status, UID }) => this.afs.doc(`users/${UID}`).update({ status })
+    switchMap(({ status, UID }) => this.afs.doc(`users/${UID}`).update({ status, lastVisit: moment().format('MMMM Do YYYY, h:mm:ss a') })
       .then(() => {
         this.afAuth.auth.signOut();
         this.cookieService.delete('uniqUid');
