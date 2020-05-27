@@ -151,6 +151,20 @@
   right: 0;
   color: red;
 }
+mat-spinner circle {
+  stroke: #3fb53f !important;
+}
+.uploader-status  {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+}
+.uploader-status ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: $main-background-color;
+  stroke-width: 15% !important;
+}
 
 // MEDIA
 @media screen and (min-device-width: 0px) and (max-device-width: 768px) {

@@ -32,28 +32,36 @@ export class AuthEffects {
   @Effect() regUser$: Observable<Action> = this.actions$.pipe(
     ofType(authActions.AuthActions.SetRegister),
     map((action: authActions.SetRegister) => action.payload),
-    switchMap(({ email, password }) => this.authService.SignUp(email, password).pipe(
-      map((response: User) => new authActions.SuccessfullRegister(response.email)),
-      catchError((err: Err) => of(new authActions.FailRegister(err.error.message)))
-    ))
+    switchMap(({ email, password }) => {
+      this.store.dispatch(new authActions.SetLoaded(true));
+      return this.authService.SignUp(email, password).pipe(
+        map((response: User) => new authActions.SuccessfullRegister(response.email)),
+        catchError((err: Err) => of(new authActions.FailRegister(err.error.message)))
+      );
+    })
   );
 
   @Effect() resetPassword$: Observable<Action> = this.actions$.pipe(
     ofType(authActions.AuthActions.ResetPassword),
     map((action: authActions.ResetPassword) => action.payload),
-    switchMap((email) => this.authService.ForgotPassword(email).pipe(
-      map((response: any) => new authActions.SuccessfulResetPassword(response),
-            catchError((err: Err) => of(new authActions.FailResetPassword(err.error.message))))
-    ))
+    switchMap((email) => {
+      this.store.dispatch(new authActions.SetLoaded(true));
+      return this.authService.ForgotPassword(email).pipe(
+        map((response: any) => new authActions.SuccessfulResetPassword(response),
+        catchError((err: Err) => of(new authActions.FailResetPassword(err.error.message)))));
+    })
   );
 
   @Effect() loginUser$: Observable<Action> = this.actions$.pipe(
     ofType(authActions.AuthActions.SetLogin),
     map((action: authActions.SetLogin) => action.payload),
-    switchMap(({ email, password }) => this.authService.SignIn(email, password).pipe(
-      map((response: User) => new authActions.SuccessfulLogin(response)),
-      catchError((err: Err) => of(new authActions.FailLogin(err.error)))
-    ))
+    switchMap(({ email, password }) => {
+      this.store.dispatch(new authActions.SetLoaded(true));
+      return this.authService.SignIn(email, password).pipe(
+        map((response: User) => new authActions.SuccessfulLogin(response)),
+        catchError((err: Err) => of(new authActions.FailLogin(err.error)))
+      );
+    })
   );
 
   @Effect() loginUserGoogle$: Observable<Action> = this.actions$.pipe(
@@ -62,15 +70,14 @@ export class AuthEffects {
     switchMap((user: User) => this.authService.AuthLogin(user).pipe(
       map((response: User) => new authActions.SuccessfulLogin(response)),
       catchError((err: Err) => of(new authActions.FailLogin(err.error.message)))
-    ))
-
-  );
+    )));
 
   @Effect({ dispatch: false }) succRegister$: Observable<string> = this.actions$.pipe(
     ofType(authActions.AuthActions.SuccessfulRegister),
     map((action: authActions.SuccessfullRegister) => action.payload),
     tap((email) => {
       localStorage.setItem('email', email);
+      this.store.dispatch(new authActions.SetLoaded(false));
       this.snackBar.open(`Hello ${email}`, `Close`, {
         duration: 5000
       });
@@ -86,9 +93,6 @@ export class AuthEffects {
       this.store.dispatch(new authActions.SetAuthenticated({ isLogged: true, isLoggining: false, status: 'online', UID: user.uid }));
       this.presenceService.combineAuthState();
       this.cookieService.set('uniqUid', user.uid);
-      this.snackBar.open(`Hello ${user.email}`, `Close`, {
-        duration: 5000
-      });
       this.router.navigate(['dashboard']);
     })
   );
@@ -97,6 +101,7 @@ export class AuthEffects {
     ofType(authActions.AuthActions.FailRegiser),
     map((action: authActions.FailRegister) => action.payload),
     tap((error: any) => {
+      this.store.dispatch(new authActions.SetLoaded(false));
       this.snackBar.open(`${error}.Try again:)`, `Close`, {
         duration: 5000
       });
@@ -107,7 +112,7 @@ export class AuthEffects {
     ofType(authActions.AuthActions.FailLogin),
     map((action: authActions.FailLogin) => action.payload),
     tap((error: any) => {
-      console.log(error);
+      this.store.dispatch(new authActions.SetLoaded(false));
       if (error.hasOwnProperty('type')) {
         this.snackBar.open(`Error:  ${error.message}`, `Resend Email`, {
           duration: 5000
@@ -135,26 +140,28 @@ export class AuthEffects {
       }
     }));
 
-    @Effect({ dispatch: false }) succResetPassword$: Observable<string> = this.actions$.pipe(
-      ofType(authActions.AuthActions.SuccessfulResetPassword),
-      map((action: authActions.SuccessfulResetPassword) => action.payload),
-      tap((obj: any) => {
-        console.log(obj);
-        this.snackBar.open(`${obj.email} ${obj.message}`, `Close`, {
-          duration: 5000
-        });
-      })
-    );
+  @Effect({ dispatch: false }) succResetPassword$: Observable<string> = this.actions$.pipe(
+    ofType(authActions.AuthActions.SuccessfulResetPassword),
+    map((action: authActions.SuccessfulResetPassword) => action.payload),
+    tap((obj: any) => {
+      this.store.dispatch(new authActions.SetLoaded(false));
+      this.snackBar.open(`${obj.email} ${obj.message}`, `Close`, {
+        duration: 5000
+      });
+    })
+  );
 
-    @Effect({ dispatch: false }) failResetPassword$: Observable<string> = this.actions$.pipe(
-      ofType(authActions.AuthActions.FailResetPassword),
-      map((action: authActions.FailResetPassword) => action.payload),
-      tap((err: any) => {
-        this.snackBar.open(`${err}. Try again later`, `Close`, {
-          duration: 5000
-        });
-      })
-    );
+  @Effect({ dispatch: false }) failResetPassword$: Observable<string> = this.actions$.pipe(
+    ofType(authActions.AuthActions.FailResetPassword),
+    map((action: authActions.FailResetPassword) => action.payload),
+    tap((err: any) => {
+      console.log(err);
+      this.store.dispatch(new authActions.SetLoaded(false));
+      this.snackBar.open(`${err}. Try again later`, `Close`, {
+        duration: 5000
+      });
+    })
+  );
   constructor(
     private actions$: Actions,
     private afs: AngularFirestore,

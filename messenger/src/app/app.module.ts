@@ -15,20 +15,13 @@ import { VerifyEmailComponent } from './components/authentication/verify-email/v
 import { AuthService } from './shared/services/authorization/auth.service';
 import { HeaderComponent } from './components/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatInputModule} from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CookieService } from 'ngx-cookie-service';
 import { ChatComponent } from './components/chat/chat.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { OwnerComponent } from './components/owner/owner.component';
-import {MatButtonModule} from '@angular/material/button';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './app.reducer';
 import { DashboardMenuComponent } from './components/dashboard/dashboard-menu/dashboard-menu.component';
@@ -36,10 +29,8 @@ import { DashboardUserListComponent } from './components/dashboard/dashboard-use
 import { DashboardUserComponent } from './components/dashboard/dashboard-user-list/dashboard-user/dashboard-user.component';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './components/authentication/store/effects/authentication.effects';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog';
 import { ModalInfoComponent } from './components/chat/modal-info/modal-info.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AngularMaterialModule } from './shared/module/angular-material/angular-material.module';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -69,22 +60,13 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     BrowserAnimationsModule,
-    MatSliderModule,
-    MatSidenavModule,
-    MatMenuModule,
-    MatInputModule,
-    MatIconModule,
+    AngularMaterialModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule,
     SocketIoModule.forRoot(config),
     FormsModule,
-    MatButtonModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
-    MatSnackBarModule,
-    MatDialogModule,
-    MatSlideToggleModule
   ],
   providers: [ AuthService, CookieService ],
   bootstrap: [AppComponent]

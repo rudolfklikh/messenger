@@ -53,8 +53,13 @@
       </div>
       <div>
         <div class="formGroup sign__up-form-wrapper sign__up--margin">
-          <button (click)="SignUp()" [disabled]="registrationForm.invalid || registrationForm.pending" type="button"
-            class="btn sign__up-form-buttons">Sign Up</button>
+          <button (click)="SignUp()" [disabled]="registrationForm.invalid || registrationForm.pending || (isLoaded$ | async)" type="button"
+            class="btn sign__up-form-buttons">
+            Sign Up
+            <div class="uploader-status" *ngIf="isLoaded$ | async">
+              <mat-spinner [diameter]='25'></mat-spinner>
+            </div>
+          </button>
         </div>
         <!-- Continue with Google -->
         <div class="formGroup sign__up-form-wrapper">

@@ -18,7 +18,8 @@ export enum AuthActions {
   SetLoginGoogle = '[AUTHENTICATION] Set Login Google',
   ResetPassword = '[AUTHENTICATION] Reset Password',
   SuccessfulResetPassword = '[AUTHENTICATION] Successful Reset Password',
-  FailResetPassword = '[AUTHENTICATION] Fail Reset Password'
+  FailResetPassword = '[AUTHENTICATION] Fail Reset Password',
+  SetLoaded = '[AUTHENTICATION] Set Loaded'
 }
 export class SetRegister implements Action {
   readonly type = AuthActions.SetRegister;
@@ -33,6 +34,10 @@ export class FailResetPassword implements Action {
   constructor(public payload: any) { }
 }
 
+export class SetLoaded implements Action {
+  readonly type = AuthActions.SetLoaded;
+  constructor(public payload: boolean) {}
+}
 
 export class ResetPassword implements Action {
   readonly type = AuthActions.ResetPassword;
@@ -95,4 +100,5 @@ export type AuthenticatedActions =
   SetLoginGoogle |
   ResetPassword |
   SuccessfulResetPassword |
-  FailResetPassword;
+  FailResetPassword |
+  SetLoaded;

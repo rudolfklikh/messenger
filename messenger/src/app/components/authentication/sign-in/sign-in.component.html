@@ -8,10 +8,13 @@
             <mat-form-field class="sign-in__form-field">
               <mat-label>Email</mat-label>
               <input formControlName="email" matInput class="sign-in__form-input">
-              <mat-icon [@bird] *ngIf="email.dirty && email.valid" class="mat-icon-rtl-mirror sign-in__success-icon" svgIcon="success"></mat-icon>
-              <mat-icon [@cancel] *ngIf="email.dirty && email.invalid || email.touched && email.invalid" class="mat-icon-rtl-mirror sign-in__fail-icon" svgIcon="fail"></mat-icon>
+              <mat-icon [@bird] *ngIf="email.dirty && email.valid" class="mat-icon-rtl-mirror sign-in__success-icon"
+                svgIcon="success"></mat-icon>
+              <mat-icon [@cancel] *ngIf="email.dirty && email.invalid || email.touched && email.invalid"
+                class="mat-icon-rtl-mirror sign-in__fail-icon" svgIcon="fail"></mat-icon>
             </mat-form-field>
-            <div class="sign-in__errors-wrapper" [@errors_wrapper] *ngIf="email.dirty && email.invalid || email.touched && email.invalid">
+            <div class="sign-in__errors-wrapper" [@errors_wrapper]
+              *ngIf="email.dirty && email.invalid || email.touched && email.invalid">
               <p class="sign-in__errors" [@errors] *ngIf="email.errors.required">Required field</p>
               <p class="sign-in__errors" [@errors] *ngIf="email.errors.pattern">Incorrect input</p>
             </div>
@@ -19,20 +22,30 @@
             <mat-form-field class="sign-in__form-field">
               <mat-label>Password</mat-label>
               <input formControlName="password" matInput type="password" class="sign-in__form-input">
-              <mat-icon [@bird] *ngIf="password.dirty && password.valid" class="mat-icon-rtl-mirror sign-in__success-icon" svgIcon="success"></mat-icon>
-              <mat-icon [@cancel] *ngIf="password.dirty && password.invalid || password.touched && password.invalid" class="mat-icon-rtl-mirror sign-in__fail-icon" svgIcon="fail"></mat-icon>
+              <mat-icon [@bird] *ngIf="password.dirty && password.valid"
+                class="mat-icon-rtl-mirror sign-in__success-icon" svgIcon="success"></mat-icon>
+              <mat-icon [@cancel] *ngIf="password.dirty && password.invalid || password.touched && password.invalid"
+                class="mat-icon-rtl-mirror sign-in__fail-icon" svgIcon="fail"></mat-icon>
             </mat-form-field>
 
-            <div class="sign-in__errors-wrapper" [@errors_wrapper] *ngIf="password.dirty && password.invalid || password.touched && password.invalid">
+            <div class="sign-in__errors-wrapper" [@errors_wrapper]
+              *ngIf="password.dirty && password.invalid || password.touched && password.invalid">
               <p class="sign-in__errors" [@errors] *ngIf="password.errors.required">Required field</p>
-              <p class="sign-in__errors" [@errors] *ngIf="password.errors.minlength">Password must be at least 8 characters long</p>
+              <p class="sign-in__errors" [@errors] *ngIf="password.errors.minlength">Password must be at least 8
+                characters long</p>
             </div>
           </form>
         </div>
         <!-- Calling SignIn Api from AuthService -->
         <div class="sign-in__form-buttons-wrapper">
           <div class="sign-in__buttons_parent">
-            <button type="button" (click)="SignIn()" class="btn btnPrimary sign-in__form-buttons" [disabled]="loginForm.invalid">Log In</button>
+            <button type="button" (click)="SignIn()" class="btn btnPrimary sign-in__form-buttons"
+              [disabled]="loginForm.invalid || (isLoaded$ | async)">
+              <span>Log In</span>
+              <div class="uploader-status" *ngIf="isLoaded$ | async">
+                <mat-spinner [diameter]='25'></mat-spinner>
+              </div>
+            </button>
           </div>
           <!-- Calling GoogleAuth Api from AuthService -->
           <div class="sign-in__buttons_parent">
@@ -47,7 +60,7 @@
         </div>
         <div class="sign-in__form-redirect-to-login-wrapper">
           <span class="sign-in__form-redirect-to-login-span">Don't have an account?</span>
-          <a  class="sign-in__form-redirect-to-login-href" [routerLink]="['/register-user']">Sign Up</a>
+          <a class="sign-in__form-redirect-to-login-href" [routerLink]="['/register-user']">Sign Up</a>
         </div>
       </div>
     </div>

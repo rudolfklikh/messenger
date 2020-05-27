@@ -25,6 +25,12 @@ export const authenticationReducers = (state = initialAuthUserState, action: Aut
         ...initialAuthUserState
       };
     }
+    case AuthActions.SetLoaded: {
+      return {
+        ...state,
+        isLoggining: action.payload
+      };
+    }
     default:
       return state;
   }

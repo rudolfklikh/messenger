@@ -7,6 +7,7 @@ import { wobble, rubberBand, shake, zoomOutRight } from 'ng-animate';
 import { AuthFacadeService } from 'src/app/shared/services/authorization/auth-facade.service';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../app.reducer';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -29,6 +30,7 @@ import * as fromRoot from '../../../app.reducer';
 export class SignInComponent implements OnInit {
 
   public loginForm: FormGroup;
+  public isLoaded$: Observable<boolean>;
 
   constructor(
     public authFacadeService: AuthFacadeService,
@@ -59,7 +61,9 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoaded$ = this.store.select(fromRoot.getAuthLoggining);
+  }
 
   SignIn() {
     const userData = this.loginForm.value;

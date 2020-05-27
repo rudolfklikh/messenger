@@ -9,6 +9,9 @@ import { SignUpValidators } from 'src/app/shared/validators/sign-up/sign-up-vali
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { UtilsService } from 'src/app/shared/services/utils/utils.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../../app.reducer';
 
 @Component({
   selector: 'app-sign-up',
@@ -48,13 +51,15 @@ export class SignUpComponent implements OnInit, OnChanges {
   public mode: ProgressSpinnerMode = 'indeterminate';
   public value = 20;
   public difficulty = '';
+  public isLoaded$: Observable<boolean>;
 
   constructor(
     private authFacadeService: AuthFacadeService,
     private utils: UtilsService,
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer,
-    public fb: FormBuilder) {
+    public fb: FormBuilder,
+    private store: Store<fromRoot.State>) {
     iconRegistry.addSvgIcon('google', sanitizer.bypassSecurityTrustResourceUrl('assets/google.svg'));
     iconRegistry.addSvgIcon('success', sanitizer.bypassSecurityTrustResourceUrl('assets/success.svg'));
     iconRegistry.addSvgIcon('fail', sanitizer.bypassSecurityTrustResourceUrl('assets/fail.svg'));
@@ -71,6 +76,11 @@ export class SignUpComponent implements OnInit, OnChanges {
       ]
     });
   }
+  ngOnInit() {
+    this.ngOnChanges();
+    this.isLoaded$ = this.store.select(fromRoot.getAuthLoggining);
+  }
+
 
   SignUp() {
     const userData = this.registrationForm.value;
@@ -79,10 +89,6 @@ export class SignUpComponent implements OnInit, OnChanges {
 
   SignUpWithGoogle() {
     this.authFacadeService.signInWithGoogle();
-  }
-
-  ngOnInit() {
-    this.ngOnChanges();
   }
 
   ngOnChanges(): void {
