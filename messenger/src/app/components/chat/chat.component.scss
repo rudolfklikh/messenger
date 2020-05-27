@@ -133,10 +133,21 @@
   font-size: 13px;
   margin-top: 5px;
 }
+.chat__no-messages {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  font-family: $second-main-font-family;
+  font-size: 16px;
+  color: $main-font-color;
+}
 
 @media screen and (min-device-width: 0px) and (max-device-width: 576px) {
   .chat__messages {
     width: 60%;
+  }
+  .chat__no-messages {
+    left: 30%;
   }
 }
 @media screen and (min-device-width: 0px) and (max-device-width: 991px) {

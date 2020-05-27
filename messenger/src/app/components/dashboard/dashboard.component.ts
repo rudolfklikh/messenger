@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalInfoComponent } from '../chat/modal-info/modal-info.component';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { UtilsService } from 'src/app/shared/services/utils/utils.service';
 
 
 @Component({
@@ -17,31 +19,27 @@ import * as moment from 'moment';
 export class DashboardComponent implements OnInit, OnDestroy {
   public selectedUser: User;
   public opened: boolean;
-  public mobileSize = false;
+  public mobileSize$: Observable<boolean>;
   public moment: any = moment;
   constructor(
     private router: Router,
     private socket: Socket,
     public iconRegistry: MatIconRegistry,
     public modalInfo: MatDialog,
-    public sanitizer: DomSanitizer) {
+    public sanitizer: DomSanitizer,
+    private utilsService: UtilsService) {
       iconRegistry.addSvgIcon('back', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/curve.svg'));
       iconRegistry.addSvgIcon('dummyprofile', sanitizer.bypassSecurityTrustResourceUrl('assets/dummyprofile.svg'));
     }
   ngOnInit() {
     this.socket.connect();
-    (window.innerWidth < 992) ? this.mobileSize = true : this.mobileSize = false;
+    this.mobileSize$ = this.utilsService.onResize$;
+    this.utilsService.onResize(window.innerWidth);
   }
   showChat(user: User) {
-    if (window.innerWidth < 992) {
-      this.mobileSize = true;
-    } else {
-      this.mobileSize = false;
-    }
     this.selectedUser = user;
     this.router.navigate(['/dashboard'], { queryParams:  { uid: user.uid } });
   }
-
   showModalInfo() {
     this.modalInfo.open(ModalInfoComponent, {
       panelClass: 'modal-info-dialog',

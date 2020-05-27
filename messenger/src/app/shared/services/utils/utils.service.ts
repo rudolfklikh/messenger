@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Subject, Observable, timer } from 'rxjs';
+import { distinctUntilChanged, take, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
+  private resizeSubject = new Subject<boolean>();
 
   constructor() { }
+
+
+  get onResize$(): Observable<any> {
+    return this.resizeSubject.asObservable().pipe(distinctUntilChanged());
+  }
+  onResize(size: number) {
+    timer(1).pipe(take(1), map(() => (size > 992) ? this.resizeSubject.next(false) : this.resizeSubject.next(true))).subscribe();
+  }
 
   public getPasswordDifficulty(password: string) {
     const smallLetters = '([a-z]+)';

@@ -1,5 +1,5 @@
 <section class="chat">
-  <div class="chat__section-user" *ngIf="!mobileSize">
+  <div class="chat__section-user" *ngIf="!(mobileSize$ | async)">
     <span class="chat__section-user-email"> {{ user.email}} </span>
     <div>
       <div class="chat__wrapper-info">
@@ -18,17 +18,25 @@
       <mat-icon svgIcon='interface'></mat-icon>
     </span>
   </div>
+
+
+
   <div class="chat__messages-area" #msgContainer>
-    <div *ngFor="let message of messages; index as i; trackBy: trackByMsg"
-      [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
-      <div class="chat__messages" [ngClass]=" {
+    <ng-container *ngIf="(messages$ | async)?.length !== 0; else noMessages">
+      <div *ngFor="let message of messages$ | async as messages; index as i; trackBy: trackByMsg"
+        [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
+        <div class="chat__messages" [ngClass]=" {
         'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID,
         'chat__msg-last': index === messages.length - 1
       }">
-        <p class="chat__messages-text">{{ message.msg }}</p>
-        <span>{{ message.date }}</span>
+          <p class="chat__messages-text">{{ message.msg }}</p>
+          <span>{{ message.date }}</span>
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #noMessages>
+      <span class="chat__no-messages">No messages yet....</span>
+    </ng-template>
   </div>
   <div class="chat__write-msg">
     <mat-form-field class="chat__input-msg chat__smile-icon">

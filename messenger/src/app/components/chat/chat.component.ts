@@ -10,6 +10,7 @@ import { MatDialog  } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { ModalInfoComponent } from './modal-info/modal-info.component';
 import { fromEvent, Observable, timer } from 'rxjs';
+import { UtilsService } from 'src/app/shared/services/utils/utils.service';
 
 @Component({
   selector: 'app-chat',
@@ -20,8 +21,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   @Input() user: User;
   @ViewChild('msgContainer') private msgWrapper: ElementRef;
   public moment: any = moment;
-  public messages = [];
-  public mobileSize: boolean;
+  public messages$: Observable<any[]>;
+  public mobileSize$: Observable<number>;
   public newMessage = new FormControl('', [Validators.required]);
   private currentUser: User;
 
@@ -30,19 +31,22 @@ export class ChatComponent implements OnInit, AfterViewInit {
     public sanitizer: DomSanitizer,
     private chatService: ChatService,
     public modalInfo: MatDialog,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private utilsService: UtilsService) {
     iconRegistry.addSvgIcon('interface', sanitizer.bypassSecurityTrustResourceUrl('assets/chat/interface.svg'));
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.pipe(
+    this.messages$ = this.activatedRoute.queryParams
+    .pipe(
       map(params => params.uid),
-      switchMap(uid => this.chatService.getMessages(uid))).subscribe(messages => {
-        this.messages = messages;
-      });
-    (window.innerWidth < 992) ? this.mobileSize = true : this.mobileSize = false;
+      switchMap(uid => this.chatService.getMessages(uid))
+    );
+    this.mobileSize$ = this.utilsService.onResize$;
+    this.utilsService.onResize(window.innerWidth);
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
+
 
   ngAfterViewInit(): void {
     timer(1000).pipe(take(1), map(() => this.scrollToBottom())).subscribe();

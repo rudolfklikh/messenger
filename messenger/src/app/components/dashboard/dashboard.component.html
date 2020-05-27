@@ -1,14 +1,14 @@
 <!-- Sidebar navigation -->
-<div class="dashboard__container" [ngClass]="{'container-fluid': mobileSize, 'container': !mobileSize}">
+<div class="dashboard__container" [ngClass]="{'container-fluid': (mobileSize$ | async), 'container': !(mobileSize$ | async)}">
   <div class="row dashboard__row">
-    <nav class="col-lg-4 sidebar dashboard__menu-wrapper" *ngIf="!selectedUser || !mobileSize">
+    <nav class="col-lg-4 sidebar dashboard__menu-wrapper" *ngIf="!selectedUser || !(mobileSize$ | async)">
       <app-dashboard-menu></app-dashboard-menu>
       <div class="dashboard__user-list">
         <app-dashboard-user-list (emitUser)="showChat($event)"></app-dashboard-user-list>
       </div>
     </nav>
     <main role="main" class="col-lg-8 col-12 dashboard__messages-main" *ngIf="selectedUser">
-      <div class="dashboard__mobile__menu" *ngIf="mobileSize">
+      <div class="dashboard__mobile__menu" *ngIf="(mobileSize$ | async)">
         <a class="dashboard__mobile__menu-back" (click)="selectedUser = null">
           <mat-icon class="dashboard__icons" svgIcon="back"></mat-icon>
           <span class="dashboard__mobile__menu-span">Back</span>
