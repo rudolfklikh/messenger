@@ -15,9 +15,10 @@ export class ModalInfoComponent implements OnInit {
   @Inject(MAT_DIALOG_DATA) public data: User,
   public iconRegistry: MatIconRegistry,
   public sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon('mail', sanitizer.bypassSecurityTrustResourceUrl('assets/modal/gmail.svg'));
-    iconRegistry.addSvgIcon('about', sanitizer.bypassSecurityTrustResourceUrl('assets/modal/about.svg'));
-    iconRegistry.addSvgIcon('notification', sanitizer.bypassSecurityTrustResourceUrl('assets/modal/bell.svg'));
+    iconRegistry.addSvgIcon('mail', sanitizer.bypassSecurityTrustResourceUrl('assets/email.svg'));
+    iconRegistry.addSvgIcon('about', sanitizer.bypassSecurityTrustResourceUrl('assets/about.svg'));
+    iconRegistry.addSvgIcon('notification', sanitizer.bypassSecurityTrustResourceUrl('assets/notification.svg'));
+    iconRegistry.addSvgIcon('close', sanitizer.bypassSecurityTrustResourceUrl('assets/close(1).svg'));
   }
 
   ngOnInit(): void {

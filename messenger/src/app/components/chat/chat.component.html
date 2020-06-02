@@ -18,25 +18,25 @@
       <mat-icon svgIcon='interface'></mat-icon>
     </span>
   </div>
-
-
-
   <div class="chat__messages-area" #msgContainer>
-    <ng-container *ngIf="(messages$ | async)?.length !== 0; else noMessages">
+    <div class="chat__no-messages" *ngIf="(loadingSpinner$ | async)">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="(messages$ | async)?.length !== 0">
       <div *ngFor="let message of messages$ | async as messages; index as i; trackBy: trackByMsg"
         [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
         <div class="chat__messages" [ngClass]=" {
-        'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID,
-        'chat__msg-last': index === messages.length - 1
-      }">
+          'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID,
+          'chat__msg-last': index === messages.length - 1
+        }">
           <p class="chat__messages-text">{{ message.msg }}</p>
           <span>{{ message.date }}</span>
         </div>
       </div>
-    </ng-container>
-    <ng-template #noMessages>
+    </div>
+    <div *ngIf="(messages$ | async)?.length === 0 && !(loadingSpinner$ | async)">
       <span class="chat__no-messages">No messages yet....</span>
-    </ng-template>
+    </div>
   </div>
   <div class="chat__write-msg">
     <mat-form-field class="chat__input-msg chat__smile-icon">

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, debounceTime, take } from 'rxjs/operators';
+import { map, switchMap, take, delay } from 'rxjs/operators';
 import { ChatService } from 'src/app/shared/services/chat/chat.service';
 import { User } from 'src/app/shared/intefaces/user';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -9,8 +9,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog  } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { ModalInfoComponent } from './modal-info/modal-info.component';
-import { fromEvent, Observable, timer } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 import { UtilsService } from 'src/app/shared/services/utils/utils.service';
+import * as fromRoot from '../../app.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-chat',
@@ -23,6 +25,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public moment: any = moment;
   public messages$: Observable<any[]>;
   public mobileSize$: Observable<number>;
+  public loadingSpinner$: Observable<boolean>;
   public newMessage = new FormControl('', [Validators.required]);
   private currentUser: User;
 
@@ -32,7 +35,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private chatService: ChatService,
     public modalInfo: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private utilsService: UtilsService) {
+    private utilsService: UtilsService,
+    private store: Store<fromRoot.State>) {
     iconRegistry.addSvgIcon('interface', sanitizer.bypassSecurityTrustResourceUrl('assets/chat/interface.svg'));
   }
 
@@ -40,9 +44,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.messages$ = this.activatedRoute.queryParams
     .pipe(
       map(params => params.uid),
+      delay(0),
       switchMap(uid => this.chatService.getMessages(uid))
     );
     this.mobileSize$ = this.utilsService.onResize$;
+    this.loadingSpinner$ = this.store.select(fromRoot.getSharedLoading);
     this.utilsService.onResize(window.innerWidth);
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }

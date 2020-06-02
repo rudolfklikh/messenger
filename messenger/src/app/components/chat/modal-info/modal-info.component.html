@@ -2,9 +2,7 @@
   <section class="modal-info__header">
     <div class="modal-info__header-top">
       <span class="modal-info__header-top-span">Contact info</span>
-      <button mat-fab  mat-dialog-close color="accent">
-        <mat-icon>cancel</mat-icon>
-      </button>
+      <mat-icon mat-dialog-close class="modal-info__body-ul-icon" svgIcon='close'></mat-icon>
     </div>
     <div class="modal-info__header-body">
       <img class="modal-info__header-body-img" [src]="data.photoURL" *ngIf="data.photoURL !== null; else dummyIcon">
@@ -20,17 +18,19 @@
   <section class="modal-info__body">
     <ul class="modal-info__body-ul">
       <li>
-        <mat-icon class="modal-info__body-ul-icon" svgIcon='mail'></mat-icon>
-        <span class="modal-info__body-ul-span">Email:  {{ data.email }}</span>
+        <mat-icon class="modal-info__body-ul-icon about__icon" #tooltip="matTooltip" svgIcon='mail' matTooltip="Email"
+          matTooltipPosition="below" matTooltipHideDelay="200"></mat-icon>
+        <span class="modal-info__body-ul-span">{{ data.email }}</span>
       </li>
       <li>
-        <mat-icon class="modal-info__body-ul-icon" svgIcon='about'></mat-icon>
-        <span class="modal-info__body-ul-span">About:  I am super cool boy</span>
+        <mat-icon class="modal-info__body-ul-icon about__icon" #tooltip="matTooltip" svgIcon='mail' matTooltip="About"
+        matTooltipPosition="below" matTooltipHideDelay="200" svgIcon='about'></mat-icon>
+        <span class="modal-info__body-ul-span">I am super cool boy</span>
       </li>
       <li>
-        <mat-icon class="modal-info__body-ul-icon" svgIcon='notification'></mat-icon>
+        <mat-icon #tooltip="matTooltip" svgIcon='mail' matTooltip="Turn on/off notification"
+        matTooltipPosition="below" matTooltipHideDelay="200" class="modal-info__body-ul-icon about__icon" svgIcon='notification'></mat-icon>
         <span class="modal-info__body-ul-span">
-          Notification:
           <mat-slide-toggle class="modal-info__body-ul-slide"></mat-slide-toggle>
         </span>
       </li>
