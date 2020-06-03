@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { map } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../app.reducer';
 import * as SharedActions from '../../store/actions/shared.actions';
@@ -30,6 +30,7 @@ export class ChatService {
         });
         return sortMessages;
       }),
+      delay(1000),
       map((messages: Array<any>) => messages.filter((message: any) => {
         if ((uid === message.fromUsers[0] || uid === message.fromUsers[1]) &&
           (currentUserUid === message.fromUsers[0] || currentUserUid === message.fromUsers[1])) {

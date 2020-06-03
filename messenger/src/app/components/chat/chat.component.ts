@@ -41,6 +41,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log('ON INIT DONE');
+    this.loadingSpinner$ = this.store.select(fromRoot.getSharedLoading);
     this.messages$ = this.activatedRoute.queryParams
     .pipe(
       map(params => params.uid),
@@ -48,7 +50,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
       switchMap(uid => this.chatService.getMessages(uid))
     );
     this.mobileSize$ = this.utilsService.onResize$;
-    this.loadingSpinner$ = this.store.select(fromRoot.getSharedLoading);
     this.utilsService.onResize(window.innerWidth);
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
@@ -79,6 +80,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
     } else {
       return;
     }
+  }
+
+  ngOnDestroy(): void {
+    console.log('Here we are');
   }
 
   trackByMsg(index, item: any): string {

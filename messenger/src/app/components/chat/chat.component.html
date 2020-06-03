@@ -19,10 +19,15 @@
     </span>
   </div>
   <div class="chat__messages-area" #msgContainer>
-    <div class="chat__no-messages" *ngIf="(loadingSpinner$ | async)">
-      <mat-spinner></mat-spinner>
+    <div *ngIf="(loadingSpinner$ | async)">
+      <div class="chat__spinner-wrapper">
+        <div class="dash uno"></div>
+        <div class="dash dos"></div>
+        <div class="dash tres"></div>
+        <div class="dash cuatro"></div>
+      </div>
     </div>
-    <div *ngIf="(messages$ | async)?.length !== 0">
+    <div *ngIf="!!(messages$ | async)" [ngClass]="{'hide__messages': (loadingSpinner$ | async)}">
       <div *ngFor="let message of messages$ | async as messages; index as i; trackBy: trackByMsg"
         [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
         <div class="chat__messages" [ngClass]=" {

@@ -8,5 +8,4 @@ export class SetLoading implements Action {
   constructor(public payload: boolean) { }
 }
 
-
 export type LoadingActions =  SetLoading;
