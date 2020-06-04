@@ -136,9 +136,8 @@ function SetUserData(user) {
 }
 function parseCookies(request) {
         var list = {},
-                rc = request;
-
-        rc && rc.split(';').forEach(function (cookie) {
+        rc = request;
+        rc.split(';').forEach(function (cookie) {
                 var parts = cookie.split('=');
                 list[parts.shift().trim()] = unescape(parts.join('='));
         });
