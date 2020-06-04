@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, SimpleChange, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap, take, delay } from 'rxjs/operators';
 import { ChatService } from 'src/app/shared/services/chat/chat.service';
@@ -19,7 +19,7 @@ import { Store } from '@ngrx/store';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() user: User;
   @ViewChild('msgContainer') private msgWrapper: ElementRef;
   public moment: any = moment;
@@ -40,8 +40,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     iconRegistry.addSvgIcon('interface', sanitizer.bypassSecurityTrustResourceUrl('assets/chat/interface.svg'));
   }
 
+
   ngOnInit(): void {
-    console.log('ON INIT DONE');
     this.loadingSpinner$ = this.store.select(fromRoot.getSharedLoading);
     this.messages$ = this.activatedRoute.queryParams
     .pipe(
@@ -54,11 +54,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
+  ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+    if (changes.user.previousValue !== changes.user.currentValue) {
+      this.ngAfterViewInit();
+    }
+  }
+
 
   ngAfterViewInit(): void {
-    timer(1000).pipe(take(1), map(() => this.scrollToBottom())).subscribe();
+    timer(2000).pipe(map(() => this.scrollToBottom())).subscribe();
   }
   scrollToBottom(): void {
+    console.log('WOW');
     this.msgWrapper.nativeElement.scrollTop = this.msgWrapper.nativeElement.scrollHeight;
   }
   showModalInfo(): void {
@@ -81,11 +88,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
       return;
     }
   }
-
-  ngOnDestroy(): void {
-    console.log('Here we are');
-  }
-
   trackByMsg(index, item: any): string {
     return item.msg;
   }

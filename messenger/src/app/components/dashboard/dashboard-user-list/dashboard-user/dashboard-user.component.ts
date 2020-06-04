@@ -11,12 +11,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class DashboardUserComponent implements OnInit {
 
   @Input() user: User;
+  public currentUser: User;
 
   constructor(public iconRegistry: MatIconRegistry, public sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon('dummyprofile', sanitizer.bypassSecurityTrustResourceUrl('assets/dummyprofile.svg'));
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

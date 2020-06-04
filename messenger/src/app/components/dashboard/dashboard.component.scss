@@ -111,3 +111,20 @@
     margin-top: 10px;
   }
 }
+
+.dashboard__search-bar {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+
+
+  & .mat-form-field {
+    width: 90%;
+    color: $main-font-color;
+    font-family: $second-main-font-family;
+  }
+}
+
+.dashboard__search-icon {
+  height: 35px;
+}

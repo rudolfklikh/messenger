@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthFacadeService } from 'src/app/shared/services/authorization/auth-facade.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-verify-email',
@@ -8,7 +9,7 @@ import { AuthFacadeService } from 'src/app/shared/services/authorization/auth-fa
 })
 export class VerifyEmailComponent implements OnInit {
 
-  constructor(public authFacade: AuthFacadeService) { }
+  constructor(public authFacade: AuthFacadeService, private snackBar: MatSnackBar) { }
   userEmail: string;
   ngOnInit() {
     this.userEmail = localStorage.getItem('email');
@@ -16,6 +17,9 @@ export class VerifyEmailComponent implements OnInit {
 
   resendVerificationLink() {
     this.authFacade.ResendVerificationLink();
+    this.snackBar.open(`Check your email again ${this.userEmail}`, `Close`, {
+      duration: 5000
+    });
   }
 
 }

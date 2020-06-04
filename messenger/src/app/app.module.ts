@@ -33,6 +33,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
 import { AuthEffects } from './components/authentication/store/effects/authentication.effects';
 import { reducers } from './app.reducer';
+import { SearchUserPipe } from './shared/pipes/search-user.pipe';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -52,7 +53,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     DashboardMenuComponent,
     DashboardUserListComponent,
     DashboardUserComponent,
-    ModalInfoComponent
+    ModalInfoComponent,
+    SearchUserPipe
   ],
   imports: [
     BrowserModule,

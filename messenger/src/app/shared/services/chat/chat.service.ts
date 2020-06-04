@@ -21,6 +21,7 @@ export class ChatService {
   public getMessages(uid: string) {
     this.store.dispatch(new SharedActions.SetLoading(true));
     const currentUserUid = JSON.parse(localStorage.getItem('user')).uid;
+
     return this.afs.collection<any>('messages').snapshotChanges().pipe(
       map(actions => actions.map(a => a.payload.doc.data())),
       map((messages) => {
@@ -30,13 +31,23 @@ export class ChatService {
         });
         return sortMessages;
       }),
-      delay(1000),
-      map((messages: Array<any>) => messages.filter((message: any) => {
-        if ((uid === message.fromUsers[0] || uid === message.fromUsers[1]) &&
-          (currentUserUid === message.fromUsers[0] || currentUserUid === message.fromUsers[1])) {
-          return message;
-        }
+      delay(500),
+      map((messages: Array<any>) => {
         this.store.dispatch(new SharedActions.SetLoading(false));
-      })));
+        if (currentUserUid === uid) {
+          return messages.filter((message: any) => {
+            if ((currentUserUid === message.fromUsers[0] && currentUserUid === message.fromUsers[1])) {
+              return message;
+            }
+          });
+        } else {
+          return messages.filter((message: any) => {
+            if ((uid === message.fromUsers[0] || uid === message.fromUsers[1]) &&
+              (currentUserUid === message.fromUsers[0] || currentUserUid === message.fromUsers[1])) {
+              return message;
+            }
+          });
+        }
+      }));
   }
 }

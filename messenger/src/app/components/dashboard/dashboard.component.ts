@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public opened: boolean;
   public mobileSize$: Observable<boolean>;
   public moment: any = moment;
+  public searchStr = '';
   constructor(
     private router: Router,
     private socket: Socket,
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar) {
       iconRegistry.addSvgIcon('back', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/curve.svg'));
       iconRegistry.addSvgIcon('dummyprofile', sanitizer.bypassSecurityTrustResourceUrl('assets/dummyprofile.svg'));
+      iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl('assets/search.svg'));
     }
   ngOnInit() {
     this.socket.connect();
@@ -53,6 +55,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       panelClass: 'modal-info-dialog',
       data: this.selectedUser
     });
+  }
+
+  searchUser() {
+    console.log('Hello');
   }
   ngOnDestroy(): void {
     this.socket.disconnect();

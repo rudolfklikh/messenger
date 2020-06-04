@@ -3,8 +3,15 @@
   <div class="row dashboard__row">
     <nav class="col-lg-4 sidebar dashboard__menu-wrapper" *ngIf="!selectedUser || !(mobileSize$ | async)">
       <app-dashboard-menu></app-dashboard-menu>
+      <div class="dashboard__search-bar">
+        <mat-form-field>
+          <mat-label>Find User</mat-label>
+          <mat-icon matPrefix class="dashboard__mobile__menu-img dashboard__search-icon" svgIcon="search"></mat-icon>
+          <input matInput [(ngModel)]="searchStr">
+        </mat-form-field>
+      </div>
       <div class="dashboard__user-list">
-        <app-dashboard-user-list (emitUser)="showChat($event)"></app-dashboard-user-list>
+        <app-dashboard-user-list [searchStr]='searchStr' (emitUser)="showChat($event)"></app-dashboard-user-list>
       </div>
     </nav>
     <main role="main" class="col-lg-8 col-12 dashboard__messages-main" *ngIf="selectedUser">
