@@ -28,15 +28,16 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
+
 io.on('connection', (socket) => {
         users.push({ id: parseCookies(socket.handshake.headers.cookie).uniqUid, socket: socket });
         const uniqUid = parseCookies(socket.handshake.headers.cookie).uniqUid;
+        console.log('CONNECTION', uniqUid);
         const UserRef = db.doc(`users/${uniqUid}`);
         const status = { status: 'online' };
         UserRef.set(status, {
                 merge: true
         });
-        console.log(parseCookies(socket.handshake.headers.cookie).uniqUid, 'ON CONNECT PROSZĘ BARDZO');
         socket.on('new-message', (message) => {
                 console.log(message);
                 const MessageRef = db.collection(`messages`);
@@ -46,9 +47,8 @@ io.on('connection', (socket) => {
         socket.on('disconnect', () => {
                 const uniqUid = parseCookies(socket.handshake.headers.cookie).uniqUid;
                 const UserRef = db.doc(`users/${uniqUid}`);
-                console.log(uniqUid, 'ON DISCONNECT PROSZĘ BARDZO');
+                console.log('DISCONNET', uniqUid);
                 if (uniqUid) {
-
                         setTimeout(() => {
                                 const status = { status: 'offline', lastVisit: moment().format('MMMM Do YYYY, h:mm:ss a') };
                                 UserRef.set(status, {
@@ -70,15 +70,13 @@ app.route('/api/register').post(async (req, res) => {
                 res.send(400, error);
         }
 });
-
 app.route('/api/login').post(async (req, res) => {
         try {
-                const result = await afAuth.signInWithEmailAndPassword(req.body.email, req.body.password);
-                if (result.user && !result.user.emailVerified) {
+                if (req.body && !req.body.emailVerified) {
                         res.send(400, { type: 'email', message: 'Email not Verified, check your email' });
                 } else {
-                        SetUserData(result.user);
-                        res.send(200, result.user);
+                        SetUserData(req.body);
+                        res.send(200, req.body);
                 }
         } catch (error) {
                 res.send(400, error);
@@ -88,6 +86,7 @@ app.route('/api/login').post(async (req, res) => {
 app.route('/api/login-google').post(async (req, res) => {
         try {
                 SetUserData(req.body);
+                console.log(afAuth.currentUser);
                 res.send(200, req.body);
         } catch (error) {
                 res.send(400, error);
@@ -136,7 +135,7 @@ function SetUserData(user) {
 }
 function parseCookies(request) {
         var list = {},
-        rc = request;
+                rc = request;
         rc.split(';').forEach(function (cookie) {
                 var parts = cookie.split('=');
                 list[parts.shift().trim()] = unescape(parts.join('='));
