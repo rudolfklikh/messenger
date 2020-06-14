@@ -8,7 +8,7 @@
 </a>
 <nav [@showMenu] *ngIf="toggleBool" class="dashboard__toggle-menu">
   <ul class="dashboard__toggle-ul">
-    <li class="dashboard__toggle-li">
+    <li class="dashboard__toggle-li" (click)="showProfileModal()">
       <mat-icon class="dashboard__icons" svgIcon="portfolio"></mat-icon>
       <a class="dashboard__toggle-link">Profile</a>
     </li>

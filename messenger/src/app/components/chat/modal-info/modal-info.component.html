@@ -25,7 +25,14 @@
       <li>
         <mat-icon class="modal-info__body-ul-icon about__icon" #tooltip="matTooltip" svgIcon='mail' matTooltip="About"
         matTooltipPosition="below" matTooltipHideDelay="200" svgIcon='about'></mat-icon>
-        <span class="modal-info__body-ul-span">I am super cool boy</span>
+        <span class="modal-info__body-ul-span">
+          <ng-container *ngIf="data.aboutText; else staticAbout">
+            {{ data.aboutText }}
+          </ng-container>
+          <ng-template #staticAbout>
+            No information...
+          </ng-template>
+        </span>
       </li>
       <li>
         <mat-icon #tooltip="matTooltip" svgIcon='mail' matTooltip="Turn on/off notification"

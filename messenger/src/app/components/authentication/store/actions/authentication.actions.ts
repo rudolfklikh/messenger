@@ -3,6 +3,7 @@ import { status, AuthUserState } from '../state/authentication.state';
 import { RegInfo } from 'src/app/shared/intefaces/reg-info';
 import { User } from 'src/app/shared/intefaces/user';
 import { Err } from 'src/app/shared/intefaces/error';
+import { UserState } from 'src/app/components/dashboard/store/state/user.state';
 
 export enum AuthActions {
   SetRegister = '[AUTHENTICATION] Set Register',
@@ -45,7 +46,7 @@ export class ResetPassword implements Action {
 }
 export class SetLogin implements Action {
   readonly type = AuthActions.SetLogin;
-  constructor(public payload: RegInfo) { }
+  constructor(public payload: UserState) { }
 }
 
 export class SetLoginGoogle implements Action {

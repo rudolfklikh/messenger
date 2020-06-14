@@ -1,0 +1,86 @@
+<section class="profile-modal__nav">
+  <span class="profile-modal__nav-title">Profile</span>
+  <div>
+    <mat-icon mat-dialog-close class="profile-modal__nav-icon" svgIcon='close'></mat-icon>
+  </div>
+</section>
+<section class="profile-modal__header">
+  <div class="profile-modal__img-wrapper">
+    <img class="profile-modal__header-img" [src]="( photoUrl$ | async )" *ngIf="( photoUrl$ | async ) !== null; else dummyIcon">
+    <ng-template #dummyIcon>
+      <mat-icon class="profile-modal__header-dummy-img" svgIcon="dummyprofile"></mat-icon>
+    </ng-template>
+    <div *ngIf="!( progress$ | async ) && (progress$ | async) !== null" class="profile-modal__header-progress">
+      <mat-spinner [diameter]='25'></mat-spinner>
+    </div>
+  </div>
+  <div class="profile-modal__header-wrapper">
+    <span class="profile-modal__header-wrapper-span">{{ (data$ | async).email }}</span>
+    <span class="profile-modal__header-wrapper-span">{{ status$ | async }}</span>
+  </div>
+</section>
+<section class="profile-modal__body">
+  <div class="profile-modal__body-icon-wrapper">
+    <div class="image-upload">
+      <label for="file-input">
+        <mat-icon class="profile-modal__body-icon" svgIcon="camera"></mat-icon>
+      </label>
+      <input #imageInput (change)='UpdatePhoto($event)' id="file-input" accept="image/*" type="file" />
+    </div>
+  </div>
+  <ul class="profile-modal__body-ul">
+    <li>
+      <mat-icon class="profile-modal__body-ul-icon about__icon" #tooltip="matTooltip" svgIcon='mail' matTooltip="Email"
+        matTooltipPosition="below" matTooltipHideDelay="200"></mat-icon>
+      <span class="profile-modal__body-ul-span">{{ (data$ | async).email }}</span>
+    </li>
+    <li>
+      <mat-icon class="profile-modal__body-ul-icon about__icon" #tooltip="matTooltip" matTooltip="About"
+      matTooltipPosition="below" matTooltipHideDelay="200" svgIcon='about'></mat-icon>
+      <span class="profile-modal__body-ul-span">
+        <ng-container *ngIf="(about$ | async); else staticAbout">
+          {{ (about$ | async) }}
+        </ng-container>
+        <ng-template #staticAbout>
+          No information...
+        </ng-template>
+      </span>
+      <mat-icon class="profile-modal__body-ul-icon edit__icon"
+      #tooltip="matTooltip"
+      svgIcon='edit'
+      matTooltip="Edit About"
+      matTooltipPosition="below"
+      matTooltipHideDelay="200"
+      (click)="showPlaceHolder()"
+      > </mat-icon>
+    </li>
+  </ul>
+  <div class="profile-modal__body-about" *ngIf="showTextArea" [@showMenu]>
+    <mat-form-field class="example-full-width">
+      <mat-label>Leave something about yourself</mat-label>
+      <textarea matInput placeholder="I am from Poland" [formControl]="textArea"></textarea>
+    </mat-form-field>
+    <span *ngIf="textArea.hasError('maxlength')" class="profile__about-error">Max symbols 30</span>
+    <button mat-button class="profile-modal__body-about-button" [disabled]="!textArea.valid" (click)="ChangeAbout()">Change About</button>
+  </div>
+
+  <!-- <ul class="modal-info__body-ul">
+    <li>
+      <mat-icon class="modal-info__body-ul-icon about__icon" #tooltip="matTooltip" svgIcon='mail' matTooltip="Email"
+        matTooltipPosition="below" matTooltipHideDelay="200"></mat-icon>
+      <span class="modal-info__body-ul-span">{{ (data$ | async).email }}</span>
+    </li>
+    <li>
+      <mat-icon class="modal-info__body-ul-icon about__icon" #tooltip="matTooltip" svgIcon='mail' matTooltip="About"
+      matTooltipPosition="below" matTooltipHideDelay="200" svgIcon='about'></mat-icon>
+      <span class="modal-info__body-ul-span">I am super cool boy</span>
+    </li>
+    <li>
+      <mat-icon #tooltip="matTooltip" svgIcon='mail' matTooltip="Turn on/off notification"
+      matTooltipPosition="below" matTooltipHideDelay="200" class="modal-info__body-ul-icon about__icon" svgIcon='notification'></mat-icon>
+      <span class="modal-info__body-ul-span">
+        <mat-slide-toggle class="modal-info__body-ul-slide"></mat-slide-toggle>
+      </span>
+    </li>
+  </ul> -->
+</section>

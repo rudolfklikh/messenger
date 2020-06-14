@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { AuthService } from '../../shared/services/authorization/auth.service';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { take, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,16 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.emailVerified) {
-      return true;
-    } else {
-      this.router.navigate(['sign-in']);
-      return false;
-    }
+    return this.authService.user$.pipe(
+      take(1),
+      map(user => !!user), // <-- map to boolean
+      tap(loggedIn => {
+        if (!loggedIn) {
+          console.log('access denied');
+          this.router.navigate(['/sign-in']);
+        } else {
+          return true;
+        }
+      }));
   }
 }

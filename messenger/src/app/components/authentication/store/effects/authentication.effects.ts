@@ -55,9 +55,9 @@ export class AuthEffects {
   @Effect() loginUser$: Observable<Action> = this.actions$.pipe(
     ofType(authActions.AuthActions.SetLogin),
     map((action: authActions.SetLogin) => action.payload),
-    switchMap(({ email, password }) => {
+    switchMap((user: User) => {
       this.store.dispatch(new authActions.SetLoaded(true));
-      return this.authService.SignIn(email, password).pipe(
+      return this.authService.LoginWithEmailAndPassword(user).pipe(
         map((response: User) => new authActions.SuccessfulLogin(response)),
         catchError((err: Err) => of(new authActions.FailLogin(err.error)))
       );
@@ -89,7 +89,6 @@ export class AuthEffects {
     ofType(authActions.AuthActions.SuccessfulLogin),
     map((action: authActions.SuccessfulLogin) => action.payload),
     tap((user) => {
-      localStorage.setItem('user', JSON.stringify(user));
       this.store.dispatch(new authActions.SetAuthenticated({ isLogged: true, isLoggining: false, status: 'online', UID: user.uid }));
       this.presenceService.combineAuthState();
       this.cookieService.set('uniqUid', user.uid);

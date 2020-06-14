@@ -8,4 +8,5 @@ export interface User {
   emailVerified: boolean;
   status: status;
   lastVisit?: Date;
+  aboutText?: string;
 }

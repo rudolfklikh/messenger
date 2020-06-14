@@ -1,13 +1,7 @@
-<div *ngFor="let user of (usersList | searchUser:searchStr)" class="dashboard__user-info" (click)="eventUser(user)">
-
-  <div *ngIf=" (usersList | searchUser:searchStr).length === 0">
-    {{ usersList | json }}
-    qwfqwfwqf
-  </div>
+<div *ngFor="let user of ( ( usersList$ | async ) | searchUser:searchStr)" class="dashboard__user-info" (click)="eventUser(user)">
   <app-dashboard-user [user]="user"></app-dashboard-user>
-
   <div class="dashboard__user-info-text">
-    <ng-container *ngIf="user.email === currentUser.email; else notCurrentEmail">
+    <ng-container *ngIf="user.email === ( currentEmail$ | async ); else notCurrentEmail">
       <span class="dashboard__user-info-span">You ( Saved Messages )</span>
     </ng-container>
     <ng-template #notCurrentEmail>

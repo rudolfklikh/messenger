@@ -16,6 +16,7 @@ export class PresenceService {
   private storeUID$: Observable<string>;
 
   constructor( private afs: AngularFirestore, private store: Store<fromRoot.State>) {
+    console.log('Hello');
     this.updateOnAway();
   }
 

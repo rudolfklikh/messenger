@@ -13,7 +13,7 @@ export class AuthFacadeService {
   constructor(private authService: AuthService, public router: Router, private store: Store<fromRoot.State>) { }
 
   SignIn(email: string, password: string) {
-    this.store.dispatch(new authActions.SetLogin({ email, password }));
+    this.authService.SignIn(email, password);
   }
   SignUp(email: string, password: string) {
     this.store.dispatch(new authActions.SetRegister({ email, password }));

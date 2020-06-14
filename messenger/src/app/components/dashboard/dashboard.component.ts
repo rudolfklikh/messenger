@@ -33,22 +33,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public modalInfo: MatDialog,
     public sanitizer: DomSanitizer,
     private utilsService: UtilsService,
-    private snackBar: MatSnackBar) {
-      iconRegistry.addSvgIcon('back', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/curve.svg'));
-      iconRegistry.addSvgIcon('dummyprofile', sanitizer.bypassSecurityTrustResourceUrl('assets/dummyprofile.svg'));
-      iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl('assets/search.svg'));
-    }
+    private snackBar: MatSnackBar,
+    private store: Store<fromRoot.State>) {
+    iconRegistry.addSvgIcon('back', sanitizer.bypassSecurityTrustResourceUrl('assets/dashboard/curve.svg'));
+    iconRegistry.addSvgIcon('dummyprofile', sanitizer.bypassSecurityTrustResourceUrl('assets/dummyprofile.svg'));
+    iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl('assets/search.svg'));
+  }
   ngOnInit() {
     this.socket.connect();
     this.mobileSize$ = this.utilsService.onResize$;
     this.utilsService.onResize(window.innerWidth);
-    this.snackBar.open(`Welcome back ${JSON.parse(localStorage.getItem('user')).email}`, `Close`, {
+    this.store.select(fromRoot.getUserEmail).pipe(take(1)).subscribe(email => this.snackBar.open(`Welcome back ${email}`, `Close`, {
       duration: 5000
-    });
+    }));
   }
   showChat(user: User) {
     this.selectedUser = user;
-    this.router.navigate(['/dashboard'], { queryParams:  { uid: user.uid } });
+    this.router.navigate(['/dashboard'], { queryParams: { uid: user.uid } });
   }
   showModalInfo() {
     this.modalInfo.open(ModalInfoComponent, {
@@ -58,7 +59,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   searchUser() {
-    console.log('Hello');
   }
   ngOnDestroy(): void {
     this.socket.disconnect();

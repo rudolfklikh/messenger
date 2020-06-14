@@ -5,6 +5,7 @@ import { map, delay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../app.reducer';
 import * as SharedActions from '../../store/actions/shared.actions';
+import { Message } from '../../intefaces/message';
 
 @Injectable({
   providedIn: 'root'
@@ -20,30 +21,25 @@ export class ChatService {
 
   public getMessages(uid: string) {
     this.store.dispatch(new SharedActions.SetLoading(true));
-    const currentUserUid = JSON.parse(localStorage.getItem('user')).uid;
+    const currentUserUid = localStorage.getItem('userUID');
 
     return this.afs.collection<any>('messages').snapshotChanges().pipe(
-      map(actions => actions.map(a => a.payload.doc.data())),
-      map((messages) => {
-        const sortMessages = messages.sort((msg1, msg2) => {
-          if (msg1.date > msg2.date) { return 1; }
-          if (msg1.date < msg2.date) { return -1; }
-        });
-        return sortMessages;
-      }),
       delay(500),
-      map((messages: Array<any>) => {
+      map(actions => actions.map(a => a.payload.doc.data())),
+      map((messages: Array<Message>) => {
         this.store.dispatch(new SharedActions.SetLoading(false));
         if (currentUserUid === uid) {
-          return messages.filter((message: any) => {
+          return messages.filter((message: Message) => {
             if ((currentUserUid === message.fromUsers[0] && currentUserUid === message.fromUsers[1])) {
+              console.log(message);
               return message;
             }
           });
         } else {
-          return messages.filter((message: any) => {
+          return messages.filter((message: Message) => {
             if ((uid === message.fromUsers[0] || uid === message.fromUsers[1]) &&
               (currentUserUid === message.fromUsers[0] || currentUserUid === message.fromUsers[1])) {
+              console.log(message);
               return message;
             }
           });

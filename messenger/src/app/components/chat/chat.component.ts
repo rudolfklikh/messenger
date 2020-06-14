@@ -13,6 +13,7 @@ import { Observable, timer } from 'rxjs';
 import { UtilsService } from 'src/app/shared/services/utils/utils.service';
 import * as fromRoot from '../../app.reducer';
 import { Store } from '@ngrx/store';
+import { UserState } from '../dashboard/store/state/user.state';
 
 @Component({
   selector: 'app-chat',
@@ -27,7 +28,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnChanges {
   public mobileSize$: Observable<number>;
   public loadingSpinner$: Observable<boolean>;
   public newMessage = new FormControl('', [Validators.required]);
-  private currentUser: User;
+  public currentUser: UserState;
 
   constructor(
     public iconRegistry: MatIconRegistry,
@@ -51,7 +52,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnChanges {
     );
     this.mobileSize$ = this.utilsService.onResize$;
     this.utilsService.onResize(window.innerWidth);
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    this.store.select(fromRoot.getUserState).pipe(take(1)).subscribe(user => this.currentUser = user);
   }
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
@@ -65,7 +66,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnChanges {
     timer(2000).pipe(map(() => this.scrollToBottom())).subscribe();
   }
   scrollToBottom(): void {
-    console.log('WOW');
     this.msgWrapper.nativeElement.scrollTop = this.msgWrapper.nativeElement.scrollHeight;
   }
   showModalInfo(): void {
@@ -77,8 +77,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnChanges {
       const message = {
         uniqUID: this.user.uid,
         msg: this.newMessage.value,
-        yourUniqUID: this.currentUser.uid,
-        fromUsers: [this.user.uid, this.currentUser.uid],
+        yourUniqUID: localStorage.getItem('userUID'),
+        fromUsers: [this.user.uid, localStorage.getItem('userUID')],
         date: this.moment().format('MMMM Do YYYY, h:mm:ss a')
       };
       this.chatService.sendMessage(message);
