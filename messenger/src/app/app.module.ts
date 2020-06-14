@@ -35,6 +35,7 @@ import { AuthEffects } from './components/authentication/store/effects/authentic
 import { reducers } from './app.reducer';
 import { SearchUserPipe } from './shared/pipes/search-user.pipe';
 import { ProfileModalInfoComponent } from './components/dashboard/dashboard-menu/profile-modal-info/profile-modal-info.component';
+import { MessagesPipe } from './shared/pipes/messages.pipe';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -56,7 +57,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     DashboardUserComponent,
     ModalInfoComponent,
     SearchUserPipe,
-    ProfileModalInfoComponent
+    ProfileModalInfoComponent,
+    MessagesPipe
   ],
   imports: [
     BrowserModule,

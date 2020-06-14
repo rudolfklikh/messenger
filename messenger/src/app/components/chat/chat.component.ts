@@ -83,7 +83,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnChanges {
       };
       this.chatService.sendMessage(message);
       this.newMessage.setValue('');
-      this.scrollToBottom();
+      this.ngAfterViewInit();
     } else {
       return;
     }

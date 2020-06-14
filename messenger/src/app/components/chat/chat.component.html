@@ -28,7 +28,7 @@
       </div>
     </div>
     <div *ngIf="!!(messages$ | async)" [ngClass]="{'hide__messages': (loadingSpinner$ | async)}">
-      <div *ngFor="let message of messages$ | async as messages; index as i; trackBy: trackByMsg"
+      <div *ngFor="let message of ( ( messages$ | async ) | messages ) as messages; index as i; trackBy: trackByMsg"
         [ngClass]="{'chat__msg-fromYou': currentUser.uid === message.yourUniqUID}">
         <div class="chat__messages" [ngClass]=" {
           'chat__msg-fromYou-wrapper': currentUser.uid === message.yourUniqUID,

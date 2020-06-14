@@ -3,5 +3,5 @@ export interface Message {
   msg: string;
   yourUniqUID: string;
   fromUsers: Array<string>;
-  date: Date;
+  date: string;
 }

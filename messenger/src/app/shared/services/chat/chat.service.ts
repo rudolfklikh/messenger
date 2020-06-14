@@ -31,7 +31,6 @@ export class ChatService {
         if (currentUserUid === uid) {
           return messages.filter((message: Message) => {
             if ((currentUserUid === message.fromUsers[0] && currentUserUid === message.fromUsers[1])) {
-              console.log(message);
               return message;
             }
           });
@@ -39,7 +38,6 @@ export class ChatService {
           return messages.filter((message: Message) => {
             if ((uid === message.fromUsers[0] || uid === message.fromUsers[1]) &&
               (currentUserUid === message.fromUsers[0] || currentUserUid === message.fromUsers[1])) {
-              console.log(message);
               return message;
             }
           });

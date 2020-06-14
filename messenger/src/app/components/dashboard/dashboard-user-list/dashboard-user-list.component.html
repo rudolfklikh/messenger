@@ -1,6 +1,6 @@
 <div *ngFor="let user of ( ( usersList$ | async ) | searchUser:searchStr)" class="dashboard__user-info" (click)="eventUser(user)">
-  <app-dashboard-user [user]="user"></app-dashboard-user>
-  <div class="dashboard__user-info-text">
+  <app-dashboard-user *ngIf="user" [user]="user"></app-dashboard-user>
+  <div class="dashboard__user-info-text" *ngIf="user">
     <ng-container *ngIf="user.email === ( currentEmail$ | async ); else notCurrentEmail">
       <span class="dashboard__user-info-span">You ( Saved Messages )</span>
     </ng-container>
