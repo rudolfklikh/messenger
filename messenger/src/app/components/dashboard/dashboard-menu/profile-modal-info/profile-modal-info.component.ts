@@ -31,7 +31,7 @@ import { AuthService } from 'src/app/shared/services/authorization/auth.service'
 export class ProfileModalInfoComponent implements OnInit {
   public status$: Observable<string>;
   public photoUrl$: Observable<string>;
-  public about$: Observable<string>;
+  public userAbout$: Observable<string>;
   public progress$: Observable<boolean>;
   public showTextArea = false;
   public textArea = new FormControl('', [Validators.required, Validators.maxLength(30)] );
@@ -41,7 +41,8 @@ export class ProfileModalInfoComponent implements OnInit {
     public iconRegistry: MatIconRegistry,
     public sanitizer: DomSanitizer,
     private store: Store<fromRoot.State>,
-    private profileService: ProfileService) {
+    private profileService: ProfileService,
+    private authService: AuthService) {
     iconRegistry.addSvgIcon('close', sanitizer.bypassSecurityTrustResourceUrl('assets/close(1).svg'));
     iconRegistry.addSvgIcon('camera', sanitizer.bypassSecurityTrustResourceUrl('assets/camera.svg'));
     iconRegistry.addSvgIcon('mail', sanitizer.bypassSecurityTrustResourceUrl('assets/email.svg'));
@@ -53,7 +54,7 @@ export class ProfileModalInfoComponent implements OnInit {
   ngOnInit(): void {
     this.status$ = this.store.select(fromRoot.getAuthStatus);
     this.photoUrl$ = this.store.select(fromRoot.getUserPhotoURL);
-    this.about$ = this.store.select(fromRoot.getUserAbout);
+    this.userAbout$ = this.authService.user$;
   }
 
   UpdatePhoto(event) {

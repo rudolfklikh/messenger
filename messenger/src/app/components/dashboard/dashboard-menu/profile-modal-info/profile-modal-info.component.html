@@ -16,7 +16,7 @@
   </div>
   <div class="profile-modal__header-wrapper">
     <span class="profile-modal__header-wrapper-span">{{ (data$ | async).email }}</span>
-    <span class="profile-modal__header-wrapper-span">{{ status$ | async }}</span>
+    <span class="profile-modal__header-wrapper-span">{{ (userAbout$ | async)?.status }}</span>
   </div>
 </section>
 <section class="profile-modal__body">
@@ -38,8 +38,8 @@
       <mat-icon class="profile-modal__body-ul-icon about__icon" #tooltip="matTooltip" matTooltip="About"
       matTooltipPosition="below" matTooltipHideDelay="200" svgIcon='about'></mat-icon>
       <span class="profile-modal__body-ul-span">
-        <ng-container *ngIf="(about$ | async); else staticAbout">
-          {{ (about$ | async) }}
+        <ng-container *ngIf="(userAbout$ | async)?.aboutText; else staticAbout">
+          {{ (userAbout$ | async)?.aboutText }}
         </ng-container>
         <ng-template #staticAbout>
           No information...

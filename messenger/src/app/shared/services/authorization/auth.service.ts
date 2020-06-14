@@ -31,39 +31,29 @@ export class AuthService {
     private presenceService: PresenceService,
     private cookieService: CookieService,
   ) {
+    console.log('WOOWW');
+
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log('user', user);
+        console.log('user');
       } else {
         console.log('BRED');
       }
-    });
+    })
 
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges().pipe(
-            map((userDate: User) => {
-              console.log(userDate);
-              const stateUser = {
-                uid: userDate.uid,
-                email: userDate.email,
-                displayName: userDate.displayName,
-                photoURL: userDate.photoURL,
-                emailVerified: userDate.emailVerified,
-                about: userDate.aboutText
-              };
-              this.store.dispatch(new userActions.SetUser({ ...stateUser }));
-              this.store.dispatch(new authActions.SetAuthenticated(
-                { isLogged: true,
-                  isLoggining: false,
-                  status: 'online',
-                  UID: user.uid
-                }));
-              localStorage.setItem('userUID', userDate.uid);
-              return userDate;
-            })
-          );
+          const stateUser = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            emailVerified: user.emailVerified,
+          };
+          this.store.dispatch(new userActions.SetUser({ ...stateUser }));
+          localStorage.setItem('userUID', user.uid);
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           console.log('Here');
           this.store.dispatch(new userActions.SetUser(null));
@@ -72,16 +62,6 @@ export class AuthService {
           return of(null);
         }
       }));
-    // if (JSON.parse(localStorage.getItem('user'))) {
-    //   const UID = JSON.parse(localStorage.getItem('user')).uid;
-    //   this.cookieService.set('uniqUid', UID);
-    //   this.store.dispatch(new authActions.SetAuthenticated({ isLogged: true, isLoggining: false, status: 'online', UID }));
-    //   this.presenceService.combineAuthState();
-    //   this.user$ = of(JSON.parse(localStorage.getItem('user')));
-    // } else {
-    //   this.user$ = of(null);
-    //   this.cookieService.delete('uniqUid');
-    // }
   }
   async SignIn(email, password) {   // Sign in with email/password
     const result = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
@@ -93,7 +73,6 @@ export class AuthService {
       emailVerified: result.user.emailVerified,
       status: 'offline'
     };
-    console.log(userData);
     this.store.dispatch(new authActions.SetLogin(userData));
   }
 
